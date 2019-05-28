@@ -15,8 +15,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
 // is that the password gets encrypted before being inserted
-router.post('/register', (req, res, next) => { 
-  console.log('WERE here in the register', req.body); 
+router.post('/register', (req, res, next) => {   
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
   const email = req.body.email;
@@ -39,19 +38,23 @@ router.post('/register', (req, res, next) => {
     WHERE NOT EXISTS(
       SELECT * FROM "user_devices"
       WHERE(
-        "user_id" = $1,
+        "user_id" = $1
+        AND
         "device_id" = $2
       )
     )
     RETURNING "id";
   `
   pool.query(queryText, [username, password, email])
-    .then((result) => {
-      console.log('result from register query:', result.rows[0].id);
+    .then((result) => {      
       let userId = result.rows[0].id;
       pool.query(junctionQuery, [userId, coop])
       .then((result) => {
+        console.log('adding a junction:', result);
         res.sendStatus(201);
+      }).catch((error) => {
+        console.log('error in adding junction:', error);
+        res.sendStatus(500);
       })
       //res.sendStatus(201);
     })
