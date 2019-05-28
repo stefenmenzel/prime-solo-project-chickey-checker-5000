@@ -3,15 +3,22 @@ import {connect} from 'react-redux';
 
 class Dashboard extends Component{
 
-    render(){
+    componentDidMount(){
+        this.props.dispatch({type: 'FETCH_CURRENT_DATA'});
+    }
+
+    render(){        
         return(
-            <div>Here beith the dashboard</div>
+            <div>
+                <pre>{JSON.stringify(this.props.currentData.data)}</pre>
+                Here beith the dashboard
+            </div>
         )
     }
 }
 
 const mapStateToProps = (reduxState) => {
-    return { reduxState };
+    return { currentData: reduxState.currentData };
 }
 
 export default connect(mapStateToProps)(Dashboard);
