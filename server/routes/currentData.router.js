@@ -27,14 +27,15 @@ router.get('/currentData', (req, res) => {
  */
 router.post('/recordData', (req, res) => {
     console.log('req.body recordData POST:', req.body.data);
-    let temp = req.body.data.temperature;
+    let temp = req.body.data.temp;
     let humidity = req.body.data.humidity;
     let light = req.body.data.light;
+    let hi = req.body.data.hi;
     let sqlQuery = `
-        INSERT INTO "readings" ("temp", "light", "humidity", "coop_id")
-        VALUES ($1, $2, $3, 1);
+        INSERT INTO "readings" ("temp", "light", "humidity", "heatIndex", "coop_id")
+        VALUES ($1, $2, $3, $4, 1);
     `
-    pool.query(sqlQuery, [temp, humidity, light])
+    pool.query(sqlQuery, [temp, humidity, light, hi])
     .then((result) => {
         console.log('result from record data POST route:', result);
         res.sendStatus(201);
