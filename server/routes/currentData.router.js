@@ -25,8 +25,23 @@ router.get('/currentData', (req, res) => {
 /**
  * POST route template
  */
-router.post('/', (req, res) => {
-
+router.post('/recordData', (req, res) => {
+    console.log('req.body recordData POST:', req.body.data);
+    let temp = req.body.data.temperature;
+    let humidity = req.body.data.humidity;
+    let light = req.body.data.light;
+    let sqlQuery = `
+        INSERT INTO "readings" ("temp", "light", "humidity", "coop_id")
+        VALUES ($1, $2, $3, 1);
+    `
+    pool.query(sqlQuery, [temp, humidity, light])
+    .then((result) => {
+        console.log('result from record data POST route:', result);
+        res.sendStatus(201);
+    }).catch((error) => {
+        console.log('error in record data POST route:', error);
+        res.sendStatus(500);
+    });
 });
 
 module.exports = router;

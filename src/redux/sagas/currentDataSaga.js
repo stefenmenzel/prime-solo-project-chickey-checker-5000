@@ -9,7 +9,8 @@ function* getCurrentData(action){
         };
 
         const currentData = yield axios.get("/api/data/currentData",config);
-        yield put({type: 'SET_CURRENT_DATA', payload: currentData});
+        axios.post('/api/data/recordData', currentData);
+        yield put({type: 'SET_CURRENT_DATA', payload: currentData});        
     }catch(err){
         console.log('Error in GETting current data:', err);
     }
