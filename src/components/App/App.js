@@ -16,6 +16,11 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
+import Dashboard from '../Dashboard/Dashboard.js';
+import Alerts from '../Alerts/Alerts.js';
+import NewAlertForm from '../Alerts/NewAlertForm.js';
+import HistoricData from '../HistoricData/HistoricData.js';
+import Profile from '../Profile/Profile.js';
 
 import './App.css';
 
@@ -31,7 +36,7 @@ class App extends Component {
           <Nav />
           <Switch>
             {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
-            <Redirect exact from="/" to="/home" />
+            <Redirect exact from="/" to="/dashboard" />
             {/* Visiting localhost:3000/about will show the about page.
             This is a route anyone can see, no login necessary */}
             <Route
@@ -47,6 +52,38 @@ class App extends Component {
               exact
               path="/home"
               component={UserPage}
+            />
+            {/* This page will display all the information for the current readings from the chickey checker 5000 */}
+            <ProtectedRoute
+              exact
+              path="/dashboard"
+              component={Dashboard}
+            />
+            {/* This page will show the user all the currently set alerts and will have a button for the user to create new ones. */}
+            <ProtectedRoute
+              exact
+              path="/alerts"
+              component={Alerts}
+            />
+            {/* This page will give the user the opportunity to create a new alert...not accessible from the nav */}
+            <ProtectedRoute
+              exact
+              path="/newAlert"
+              component={NewAlertForm}
+            />
+            {/* This page will show the user historic data...
+            will also allow the user to see average data across different intervals of time. */}
+            <ProtectedRoute
+              exact
+              path="/historicData"
+              component={HistoricData}
+            />
+            {/* This page will allow the user to update their contact information...
+            and maybe in the future, the coops they're connected to. */}
+            <ProtectedRoute
+              exact
+              path="/profile"
+              component={Profile}
             />
             {/* This works the same as the other protected route, except that if the user is logged in,
             they will see the info page instead. */}
