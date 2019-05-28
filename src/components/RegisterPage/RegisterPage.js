@@ -5,6 +5,9 @@ class RegisterPage extends Component {
   state = {
     username: '',
     password: '',
+    email: '',
+    coop: '',
+
   };
 
   registerUser = (event) => {
@@ -16,6 +19,8 @@ class RegisterPage extends Component {
         payload: {
           username: this.state.username,
           password: this.state.password,
+          email: this.state.email,
+          coop: this.state.coop
         },
       });
     } else {
@@ -29,8 +34,8 @@ class RegisterPage extends Component {
     });
   }
 
-  render() {
-    return (
+  render() {  
+    return(  
       <div>
         {this.props.errors.registrationMessage && (
           <h2
@@ -61,6 +66,28 @@ class RegisterPage extends Component {
                 name="password"
                 value={this.state.password}
                 onChange={this.handleInputChangeFor('password')}
+              />
+            </label>
+          </div>
+          <div>
+            <label htmlFor="email address">
+              Email Address:
+              <input
+                type="email"
+                name="email"
+                value={this.state.email}
+                onChange={this.handleInputChangeFor('email')}
+              />
+            </label>
+          </div>
+          <div>
+            <label htmlFor="coop">
+              coop id:
+              <input
+                type="text"
+                name="coop"
+                value={this.state.coop}
+                onChange={this.handleInputChangeFor('coop')}
               />
             </label>
           </div>
