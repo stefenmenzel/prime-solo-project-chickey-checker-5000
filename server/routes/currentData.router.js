@@ -2,12 +2,13 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 require('dotenv').config();
+const {rejectUnauthenticated} = require('../modules/authentication-middleware.js');
 const axios = require('axios');
 
 /**
  * GET route template
  */
-router.get('/currentData', (req, res) => {
+router.get('/currentData', rejectUnauthenticated, (req, res) => {
     let getUrl = `
         https://api.particle.io/v1/devices/${process.env.CHICKEY_CHECKER_DEVICE_NAME}/readings?access_token=${process.env.CHICKEY_CHECKER_MK1_AUTH}
     `
@@ -22,10 +23,24 @@ router.get('/currentData', (req, res) => {
     });
 });
 
+router.get('/sensors', rejectUnauthenticated, (req, res) => {
+    let sqlQuery = `
+        SELECT * FROM "sensor_metrics";
+    `
+    pool.query(sqlQuery)
+    .then((result) => {
+        console.log("result from GET sensors route:", result.rows);
+        res.send(result.rows);
+    }).catch((error) => {
+        console.log('error in GET sensors route:', error);
+        res.sendStatus(500);
+    });
+})
+
 /**
  * POST route template
  */
-router.post('/recordData', (req, res) => {
+router.post('/recordData', rejectUnauthenticated, (req, res) => {
     console.log('req.body recordData POST:', req.body.data);
     let temp = req.body.data.temp;
     let humidity = req.body.data.humidity;
