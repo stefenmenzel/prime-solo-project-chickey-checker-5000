@@ -23,6 +23,20 @@ router.get('/currentData', rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.get('/sensors', rejectUnauthenticated, (req, res) => {
+    let sqlQuery = `
+        SELECT * FROM "sensor_metrics";
+    `
+    pool.query(sqlQuery)
+    .then((result) => {
+        console.log("result from GET sensors route:", result.rows);
+        res.send(result.rows);
+    }).catch((error) => {
+        console.log('error in GET sensors route:', error);
+        res.sendStatus(500);
+    });
+})
+
 /**
  * POST route template
  */

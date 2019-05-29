@@ -4,6 +4,7 @@ import loginMode from './loginModeReducer';
 import user from './userReducer';
 import currentData from './currentData.js';
 import alerts from './alerts.js';
+import sensors from './sensors.js';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   user, // will have an id and username if someone is logged in
   currentData, //will have the most recent reading from the device.
   alerts, //will have all the current alerts for logged in user.
+  sensors, //will have all the available sensor types
 });
 
 export default rootReducer;
