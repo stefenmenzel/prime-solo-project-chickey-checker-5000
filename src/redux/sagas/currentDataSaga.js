@@ -8,7 +8,7 @@ function* getCurrentData(action){
             withCredentials: true,
         };
 
-        const currentData = yield axios.get("/api/data/currentData",config);
+        const currentData = yield axios.get("/api/data/currentData",config);        
         axios.post('/api/data/recordData', currentData);
         yield put({type: 'SET_CURRENT_DATA', payload: currentData});        
     }catch(err){

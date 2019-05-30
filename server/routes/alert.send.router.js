@@ -53,4 +53,20 @@ router.post('/mail', rejectUnauthenticated, (req, res) => {
     })
 })
 
+router.post('/text', rejectUnauthenticated, (req, res) => {
+    client.messages.create({
+        body: 'test text from the chickey checker',
+        from: process.env.TWILLIO_NUMBER,
+        to: '+17203443378'
+    })
+    .then(message => {
+        console.log(message.sid);
+        res.sendStatus(200);
+    })
+    .catch(error => {
+        console.log('error in sending text alert:', error);
+        res.sendStatus(500);
+    });
+})
+
 module.exports = router;

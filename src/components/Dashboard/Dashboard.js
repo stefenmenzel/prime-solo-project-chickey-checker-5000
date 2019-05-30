@@ -9,7 +9,7 @@ class Dashboard extends Component{
 
     render(){        
         return(
-            <div>
+            <div>                
                 <pre>{JSON.stringify(this.props.currentData.data)}</pre>
                 Here beith the dashboard
             </div>
@@ -18,7 +18,11 @@ class Dashboard extends Component{
 }
 
 const mapStateToProps = (reduxState) => {
-    return { currentData: reduxState.currentData };
+    return { 
+        currentData: reduxState.currentData,
+        alerts: reduxState.alerts,
+        user: reduxState.user,
+    };
 }
 
 export default connect(mapStateToProps)(Dashboard);
