@@ -5,6 +5,10 @@ import AlertItem from './AlertItem.js';
 
 class Alerts extends Component{
 
+    componentDidMount(){
+        this.props.dispatch({type:'FETCH_ALERTS'});
+    }
+
     addAlert = () => {
         //go to new alert page.
         console.log('add a new alert');
@@ -26,7 +30,7 @@ class Alerts extends Component{
                         </tr>
                     </thead>
                     <tbody>
-                        {this.props.alerts.map((alert) => {
+                        {this.props.alerts.length && this.props.alerts.map((alert) => {
                             return <AlertItem key={alert.id} alert={alert}/>
                         })}
                     </tbody>
