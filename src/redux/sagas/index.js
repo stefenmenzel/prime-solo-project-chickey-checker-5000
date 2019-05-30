@@ -5,6 +5,7 @@ import userSaga from './userSaga';
 import currentDataSaga from './currentDataSaga.js';
 import alertSaga from './alertSaga.js';
 import sensorSaga from './sensorsSaga.js';
+import sendAlertSaga from './sendAlertSaga.js';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -21,5 +22,6 @@ export default function* rootSaga() {
     currentDataSaga(),
     alertSaga(),
     sensorSaga(),
+    sendAlertSaga(),
   ]);
 }

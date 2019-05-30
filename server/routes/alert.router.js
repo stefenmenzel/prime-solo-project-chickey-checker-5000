@@ -6,7 +6,7 @@ const {rejectUnauthenticated} = require('../modules/authentication-middleware.js
 /**
  * GET route template
  */
-router.get('/', (req, res) => {
+router.get('/', rejectUnauthenticated, (req, res) => {
     let sqlQuery = `
         SELECT "alerts".id, "sensor_metrics".metric, "alerts".condition, "alerts".value,
         "alerts".active, "alerts".email, "alerts".phone
@@ -27,7 +27,7 @@ router.get('/', (req, res) => {
 /**
  * POST route template
  */
-router.post('/add', (req, res) => {
+router.post('/add', rejectUnauthenticated, (req, res) => {
     let metricId = req.body.sensor;
     let condition = req.body.condition;
     let value = req.body.value;
@@ -48,7 +48,7 @@ router.post('/add', (req, res) => {
     });
 });
 
-router.put('/toggle', (req, res) => {
+router.put('/toggle', rejectUnauthenticated, (req, res) => {
     let sqlQuery = `
         UPDATE "alerts"
         SET "active" = NOT "active"
@@ -64,7 +64,7 @@ router.put('/toggle', (req, res) => {
     });
 })
 
-router.delete('/delete', (req, res) => {
+router.delete('/delete', rejectUnauthenticated, (req, res) => {
     let sqlQuery = `
         DELETE FROM "alerts"
         WHERE "id" = $1;
