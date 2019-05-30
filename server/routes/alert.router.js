@@ -7,7 +7,21 @@ const {rejectUnauthenticated} = require('../modules/authentication-middleware.js
  * GET route template
  */
 router.get('/', (req, res) => {
-    
+    let sqlQuery = `
+        SELECT "alerts".id, "sensor_metrics".metric, "alerts".condition, "alerts".value,
+        "alerts".active, "alerts".email, "alerts".phone
+        FROM "alerts"
+        JOIN "sensor_metrics" on "alerts".metric_id = "sensor_metrics".id
+        ORDER BY "alerts".id;
+    `
+    pool.query(sqlQuery)
+    .then((result) => {
+        console.log('result from GET alerts:', result.rows);
+        res.send(result.rows);
+    }).catch((error) => {
+        console.log("error in GET alerts:", error);
+        res.send(500);
+    });
 });
 
 /**
@@ -33,5 +47,36 @@ router.post('/add', (req, res) => {
         res.sendStatus(500);
     });
 });
+
+router.put('/toggle', (req, res) => {
+    let sqlQuery = `
+        UPDATE "alerts"
+        SET "active" = NOT "active"
+        WHERE "id" = $1;
+    `
+    pool.query(sqlQuery, [req.body.id])
+    .then((result) => {
+        console.log('result from TOGGLE_ALERTS update route:', result);
+        res.sendStatus(200);
+    }).catch((error) => {
+        console.log('error in TOGGLE_ALERTS update route:', error);
+        res.sendStatus(500);
+    });
+})
+
+router.delete('/delete', (req, res) => {
+    let sqlQuery = `
+        DELETE FROM "alerts"
+        WHERE "id" = $1;
+    `
+    pool.query(sqlQuery, [req.query.idToDelete])
+    .then((result) => {
+        console.log('result from DELETE alert route:', result);
+        res.sendStatus(200);
+    }).catch((error) => {
+        console.log('Error in DELETE alert request:', error);
+        res.sendStatus(500);
+    });
+})
 
 module.exports = router;
