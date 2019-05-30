@@ -37,6 +37,7 @@ class Alerts extends Component{
                 </table>
                 <br />
                 <button onClick={this.addAlert}>+ add alert</button>
+                <button onClick={() => this.props.dispatch({type: 'SEND_MAIL_ALERT'})}>TEST SEND MAIL ALERT</button>
             </div>
         )
     }
