@@ -19,6 +19,7 @@ class Alerts extends Component{
     render(){
         return(
             <div>
+                <h1>Alerts</h1>
                 <table>
                     <thead>
                         <tr>

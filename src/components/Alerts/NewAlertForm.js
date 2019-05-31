@@ -100,14 +100,14 @@ class NewAlertForm extends Component{
                     <div>
                         <label htmlFor="condition">Condition</label>
                         <select id="condition" value={this.state.condition} onChange={(e) => this.handleChange('condition', e)}>
-                            <option value='<' label='Less Than' selected="selected"/>
+                            <option value='<' label='Less Than'/>
                             <option value='>' label='Greater Than' />
                             <option value='<=' label='Less Than or Equal To' />
                             <option value='>=' label='Greater Than or Equal To' />
                         </select>
                         {/* <input onChange={(e) => this.handleChange('condition', e)} placeholder="condition" /> */}
                         <label htmlFor="value">Value</label>
-                        <input id="value" type='number' onChange={(e) => this.handleChange('value', e)} placeholder="value" />
+                        <input id="value" type='number' step="0.01" onChange={(e) => this.handleChange('value', e)} placeholder="value" />
                     </div>
                     <div>
                         <label>Contact Method</label>

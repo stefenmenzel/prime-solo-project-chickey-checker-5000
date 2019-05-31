@@ -7,8 +7,8 @@ function* sendMailAlert(action){
             headers: {'Content-type': 'application/json'},
             withCredentials: true,
         }
-
-        yield axios.post('/api/sendAlert/mail', action.payload, config);
+        
+        yield axios.post('/api/sendAlert/mail', action.payload, config);                
     }catch(err){
         console.log('error in sending email alert:', err);
     };
@@ -19,9 +19,8 @@ function* sendTextAlert(action){
         const config = {
             headers: { 'Content-type': 'application/json'},
             withCredentials: true,
-        }
-
-        yield axios.post('/api/sendAlert/text', action.payload, config);
+        }        
+        yield axios.post('/api/sendAlert/text', action.payload, config);        
     }catch(err){
         console.log('error in sending text alert:', err);
     }
