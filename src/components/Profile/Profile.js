@@ -1,59 +1,44 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import ProfileItem from './ProfileItem';
 
 class Profile extends Component{
 
     state = {
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
-
-        firstNameEdit: '',
-        lastNameEdit: '',
-        emailEdit: '',
-        areaCodeEdit: '',
-        phoneNumberEdit: '',
+        first_name: this.props.user.first_name,
+        last_name: this.props.user.last_name,
+        email: this.props.user.email,
+        phone_number: this.props.user.phone_number
     }
 
     componentDidMount(){
-        this.setState({
-            ...this.state,
-            firstName: this.props.user.first_name,
-            lastName: this.props.user.last_name,
-            email: this.props.user.email,
-            phoneNumber: this.props.user.phone_number
-        })
+        console.log('this.state on mount:', this.state);
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
-        console.log('saving profile');
+        console.log('saving profile');        
+        this.props.dispatch({type: 'UPDATE_PROFILE', payload: this.state});        
     }
 
-    handleClick = (propertyToEdit, event) => {
-        console.log('doing a thing');
+    handleChange = (propertyToChange, event) => {
+        console.log('handling change:', event.target.value);
+        this.setState({
+            ...this.state,
+            [propertyToChange]: event.target.value
+        })
     }
-
-    /* So meyer did a cool thing with conditionally rendering <h3>'s as input fields....so
-        first you set the <h3> to like...<h3>{this.state.firstName}</h3> or whatever....then
-        onclick you set firstName to something like <input onchange={handleChange} /> or soemthing
-        this will all be in a form so when you click enter it will submit which will change the props
-        and reset state and re-render...it's great*/
+    
     render(){
+        console.log('this.state hath re-rendered: ', this.state);
         return(
             <div>
                 <h1>Profile</h1>
                 <form onSubmit={this.handleSubmit}>
-                    <h3 onClick={(e) => this.handleClick('firstName', e)}>First name: {this.state.firstName}</h3>
-                    {/* <input placeholder="first name" /> */}
-                    <h3>Last name: {this.state.lastName}</h3>
-                    {/* <input placeholder="last name" /> */}
-                    <h3>Email address: {this.state.email}</h3>
-                    {/* <input placeholder="email" /> */}
-                    <h3>Phone Number: {this.state.phoneNumber}</h3>
-                    {/* <input placeholder="area code" /> */}                    
-                    {/* <input placeholder="phone number" /> */}
+                    <div>First Name: <ProfileItem handleChange={this.handleChange} valueToChange="first_name" item={this.state.first_name} /></div>
+                    <div>Last Name: <ProfileItem handleChange={this.handleChange} valueToChange="last_name" item={this.state.last_name} /></div>                    
+                    <div>Email: <ProfileItem handleChange={this.handleChange} valueToChange="email" item={this.state.email} /></div>
+                    <div>Phone Number: <ProfileItem handleChange={this.handleChange} valueToChange="phone_number" item={this.state.phone_number} /></div>
                     <button type="submit">save</button>
                 </form>
             </div>

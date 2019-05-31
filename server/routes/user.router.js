@@ -79,4 +79,41 @@ router.post('/logout', (req, res) => {
   res.sendStatus(200);
 });
 
+router.put('/update', (req, res) => {
+  console.log("got to the update user router:", req.body);
+  console.log('key name for the first item:', Object.keys(req.body)[1]);
+  let first_name_key = Object.keys(req.body)[0];
+  let last_name_key = Object.keys(req.body)[1];
+  let email_key = Object.keys(req.body)[2];
+  let phone_key = Object.keys(req.body)[3];
+  let keyObject = {
+    one: first_name_key,
+    two: last_name_key,
+    three: email_key,
+    four: phone_key
+  }
+  console.log('all the keys:', keyObject);
+
+  let sqlQuery = `
+    UPDATE "user"
+    SET "first_name" = $1, "last_name" = $2, "email" = $3, "phone_number" = $4
+    WHERE "id" = $5
+  `
+  pool.query(sqlQuery, 
+    [
+      req.body.first_name, 
+      req.body.last_name, 
+      req.body.email, 
+      req.body.phone_number,
+      req.user.id
+    ])
+  .then((result) => {
+    console.log('result from UPDATE user profile route', result);
+    res.sendStatus(200);
+  }).catch((error) => {
+    console.log('error in UPDATE user profile route:', error);
+    res.sendStatus(500);
+  });  
+})
+
 module.exports = router;

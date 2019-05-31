@@ -14,7 +14,7 @@ function* fetchUser() {
     // If a user is logged in, this will return their information
     // from the server session (req.user)
     const response = yield axios.get('api/user', config);
-
+    console.log('response from fetch user:', response);
     // now that the session has given us a user object
     // with an id and username set the client-side user object to let
     // the client-side code know the user is logged in
@@ -24,8 +24,23 @@ function* fetchUser() {
   }
 }
 
+function* updateUser(action){
+  try{
+    const config = {
+      headers: { 'Content-type': 'application/json' },
+      withCredentials: true,
+    };
+
+    yield axios.put('/api/user/update', action.payload, config);
+    yield put({type: 'FETCH_USER'});
+  }catch(err){
+    console.log('Error updating user:', err);
+  }
+}
+
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);
+  yield takeLatest('UPDATE_PROFILE', updateUser);
 }
 
 export default userSaga;
