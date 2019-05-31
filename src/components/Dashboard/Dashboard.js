@@ -5,12 +5,13 @@ class Dashboard extends Component{
 
     componentDidMount(){
         this.props.dispatch({type: 'FETCH_CURRENT_DATA'});
+        this.props.dispatch({ type: 'FETCH_ALERTS' });        
     }
 
     render(){        
         return(
             <div>                
-                <pre>{JSON.stringify(this.props.currentData.data)}</pre>
+                <pre>{JSON.stringify(this.props.currentData)}</pre>
                 Here beith the dashboard
             </div>
         )
