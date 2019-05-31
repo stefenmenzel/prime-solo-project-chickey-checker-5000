@@ -7,12 +7,32 @@ class Profile extends Component{
         firstName: '',
         lastName: '',
         email: '',
-        phoneNumber: ''
+        phoneNumber: '',
+
+        firstNameEdit: '',
+        lastNameEdit: '',
+        emailEdit: '',
+        areaCodeEdit: '',
+        phoneNumberEdit: '',
+    }
+
+    componentDidMount(){
+        this.setState({
+            ...this.state,
+            firstName: this.props.user.first_name,
+            lastName: this.props.user.last_name,
+            email: this.props.user.email,
+            phoneNumber: this.props.user.phone_number
+        })
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
         console.log('saving profile');
+    }
+
+    handleClick = (propertyToEdit, event) => {
+        console.log('doing a thing');
     }
 
     /* So meyer did a cool thing with conditionally rendering <h3>'s as input fields....so
@@ -25,11 +45,15 @@ class Profile extends Component{
             <div>
                 <h1>Profile</h1>
                 <form onSubmit={this.handleSubmit}>
-                    <input placeholder="first name" />
-                    <input placeholder="last name" />
-                    <input placeholder="email" />
-                    <input placeholder="area code" />
-                    <input placeholder="phone number" />
+                    <h3 onClick={(e) => this.handleClick('firstName', e)}>First name: {this.state.firstName}</h3>
+                    {/* <input placeholder="first name" /> */}
+                    <h3>Last name: {this.state.lastName}</h3>
+                    {/* <input placeholder="last name" /> */}
+                    <h3>Email address: {this.state.email}</h3>
+                    {/* <input placeholder="email" /> */}
+                    <h3>Phone Number: {this.state.phoneNumber}</h3>
+                    {/* <input placeholder="area code" /> */}                    
+                    {/* <input placeholder="phone number" /> */}
                     <button type="submit">save</button>
                 </form>
             </div>
@@ -38,7 +62,9 @@ class Profile extends Component{
 }
 
 const mapStatToProps = (reduxState) => {
-    return { reduxState };
+    return { 
+        user: reduxState.user,
+     };
 }
 
 export default connect(mapStatToProps)(Profile);
