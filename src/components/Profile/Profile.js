@@ -15,6 +15,11 @@ class Profile extends Component{
         console.log('saving profile');
     }
 
+    /* So meyer did a cool thing with conditionally rendering <h3>'s as input fields....so
+        first you set the <h3> to like...<h3>{this.state.firstName}</h3> or whatever....then
+        onclick you set firstName to something like <input onchange={handleChange} /> or soemthing
+        this will all be in a form so when you click enter it will submit which will change the props
+        and reset state and re-render...it's great*/
     render(){
         return(
             <div>
