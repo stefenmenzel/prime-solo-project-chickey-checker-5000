@@ -10,7 +10,8 @@ class Dashboard extends Component{
 
     render(){        
         return(
-            <div>                
+            <div>    
+                <h1>Dashboard</h1>            
                 <pre>{JSON.stringify(this.props.currentData)}</pre>
                 Here beith the dashboard
             </div>

@@ -24,9 +24,41 @@ transporter.verify((error, success) => {
     }
 });
 
+function craftMessage(alert){
+    let condition = '';
+    let value = '';
+    switch (alert.condition) {
+        case '<':
+        case '<=':
+            condition = 'less than';
+            break;
+        case '>':
+        case '>=':
+            condition = 'greater than';
+            break;
+        default:
+            break;
+    }
+    switch (alert.metric) {
+        case 'temperature':
+        case 'heatIndex':
+            value = `${alert.value} °F`;
+            break;        
+        case 'humidity':
+        case 'light':
+            value = `${alert.value}%`
+        default:
+            break;
+    }
+    return `The ${alert.metric} in the coop is ${condition} ${value}`;
+}
+
 router.post('/mail', rejectUnauthenticated, (req, res) => {
-    let email = 'stefenmenzel@gmail.com';
-    let message = 'test message from chickey checker';
+    console.log('req.body in send mail:', req.body);
+    let user = req.body.user;
+    let alert = req.body.alert;
+    let email = user.email;
+    let message = craftMessage(alert);
     let content = `email: ${email} \n message: ${message}`;
 
     let mail = {
@@ -54,10 +86,11 @@ router.post('/mail', rejectUnauthenticated, (req, res) => {
 })
 
 router.post('/text', rejectUnauthenticated, (req, res) => {
+    console.log("req.body in text message:", req.body);
     client.messages.create({
-        body: 'test text from the chickey checker',
+        body: craftMessage(req.body.alert),
         from: process.env.TWILLIO_NUMBER,
-        to: '+17203443378'
+        to: `+1${req.body.user.phone_number}`
     })
     .then(message => {
         console.log(message.sid);

@@ -5,7 +5,10 @@ class HistoricData extends Component{
 
     render(){
         return(
-            <div>You have reached the Historic Data page, sort of a museum of Chickeynfo</div>
+            <div>
+                <h1>Historic Data</h1>
+                You have reached the Historic Data page, sort of a museum of Chickeynfo
+            </div>
         )
     }
 }
