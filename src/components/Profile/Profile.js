@@ -14,28 +14,35 @@ class Profile extends Component{
 
     componentDidMount(){
         console.log('this.state on mount:', this.state);
+        this.initializeState();
+    }
+
+    initializeState = () => {
         this.setState({
             first_name: this.props.user.first_name,
             last_name: this.props.user.last_name,
             email: this.props.user.email,
-            phone_number: this.props.user.phone_number, 
+            phone_number: this.props.user.phone_number,
+            isClicked: false
         })
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
+        if (!window.confirm("Are you sure you want to update your profile?")) {
+            this.toggleInput();
+            this.initializeState();
+            return;
+        }
         console.log('saving profile');
         this.props.dispatch({type: 'UPDATE_PROFILE', payload: this.state});
-        this.setState({
-            ...this.state,
-            isClicked: false,
-        })
+        this.toggleInput();
     }
 
     toggleInput = () => {
         this.setState({
             ...this.state,
-            isClicked: true,
+            isClicked: !this.state.isClicked,
         })
     }
 
