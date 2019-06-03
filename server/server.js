@@ -13,6 +13,7 @@ const userRouter = require('./routes/user.router');
 const dataRouter = require('./routes/currentData.router.js');
 const alertRouter = require('./routes/alert.router.js');
 const alertSendRouter = require('./routes/alert.send.router.js');
+const historicDataRouter = require('./routes/historicData.router.js');
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -30,6 +31,7 @@ app.use('/api/user', userRouter);
 app.use('/api/data', dataRouter);
 app.use('/api/alerts', alertRouter);
 app.use('/api/sendAlert', alertSendRouter);
+app.use('/api/historicData', historicDataRouter);
 
 // Serve static files
 app.use(express.static('build'));
