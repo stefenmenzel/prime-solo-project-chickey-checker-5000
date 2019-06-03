@@ -5,6 +5,7 @@ import user from './userReducer';
 import currentData from './currentData.js';
 import alerts from './alerts.js';
 import sensors from './sensors.js';
+import currentHistoricData from './historicData.js';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   currentData, //will have the most recent reading from the device.
   alerts, //will have all the current alerts for logged in user.
   sensors, //will have all the available sensor types
+  currentHistoricData, //will have the current historic data pulled from the database.
 });
 
 export default rootReducer;
