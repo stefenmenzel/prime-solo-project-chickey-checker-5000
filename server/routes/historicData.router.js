@@ -5,13 +5,20 @@ require('dotenv').config();
 const {rejectUnauthenticated} = require('../modules/authentication-middleware.js');
 
 router.get('/', rejectUnauthenticated, (req, res) => {
+    console.log('req.query:', req.query);
     //test getting data for ONE graph.
+    // let sqlQuery = `
+    //     SELECT * FROM "readings"
+    //     WHERE date_part('year', "date_time") = (date_part('year', now() - interval '1 year'))
+    //     AND date_part('month', "date_time") = (date_part('month', now()));
+    // `
     let sqlQuery = `
         SELECT * FROM "readings"
-        WHERE date_part('year', "date_time") = (date_part('year', now() - interval '1 year'))
-        AND date_part('month', "date_time") = (date_part('month', now()));
+        WHERE "date_time" between $1
+        AND $2
+        ORDER BY "date_time";
     `
-    pool.query(sqlQuery)
+    pool.query(sqlQuery, [req.query.startDate, req.query.endDate])
     .then((result) => {
         console.log("result from historic data route:", result.rows);
         res.send(result.rows);

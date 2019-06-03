@@ -8,7 +8,8 @@ function* getHistoricData(action){
             withCredentials: true
         };
 
-        const historicData = yield axios.get('/api/historicData', config);
+        let query = `?startDate=${action.payload.startDate}&endDate=${action.payload.endDate}`
+        const historicData = yield axios.get(`/api/historicData${query}`, config);
         yield put({type: 'SET_HISTORIC_DATA', payload: historicData.data});
     }catch(err){
         console.log('Error in GETting historic data:', err);
