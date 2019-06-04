@@ -1,23 +1,25 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {Scatter, Bar, Bubble, Line} from 'react-chartjs-2';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { MobileStepper, Paper, Typography, Button, KeyboardArrowLeft, KeyboardArrowRight, SwipeableViews } from '@material-ui/core';
+import { Scatter, Bar, Bubble, Line } from 'react-chartjs-2';
 import moment from 'moment';
 
 import './HistoricData.css';
 
-class HistoricData extends Component{
+class HistoricData extends Component {
 
     state = {
         // startDate: new Date().toISOString().substr(0,10),
         // endDate: new Date().toISOString().substr(0,10)
-        
+
         // setting this up with test data
-        startDate: new Date('2018-06-01').toISOString().substr(0,10),
-        endDate: new Date('2018-07-01').toISOString().substr(0,10),
+        startDate: new Date('2018-06-01').toISOString().substr(0, 10),
+        endDate: new Date('2018-07-01').toISOString().substr(0, 10),
+        activeStep: 0,
     }
 
-    componentDidMount(){
-        this.props.dispatch({type: 'FETCH_HISTORIC_DATA', payload: this.state});
+    componentDidMount() {
+        this.props.dispatch({ type: 'FETCH_HISTORIC_DATA', payload: { startDate: this.state.startDate, endDate: this.state.endDate } });
     }
     compileData = (dataType) => {
         let data = [];
@@ -36,20 +38,44 @@ class HistoricData extends Component{
         // let testString2 = `${test3}/${test2}`;
 
 
-        if(this.props.historicData.length){
-            for(let i = 0; i < this.props.historicData.length; i++){
+        if (this.props.historicData.length) {
+            for (let i = 0; i < this.props.historicData.length; i++) {
                 let date = new Date(this.props.historicData[i].date_time);
-                data.push({x: moment.utc(date).format('YYYY/MM/DD HH:mm:ss'), y: parseFloat(this.props.historicData[i][dataType])});
+                data.push({ x: moment.utc(date).format('YYYY/MM/DD HH:mm:ss'), y: parseFloat(this.props.historicData[i][dataType]) });
             }
         }
-        console.log('data from compileData Two electric boogaloo:', data);
+        // console.log('data from compileData Two electric boogaloo:', data);
         return data;
     }
 
     fetchData = (event) => {
         event.preventDefault();
-        console.log('handling submit', this.state);
-        this.props.dispatch({type: 'FETCH_HISTORIC_DATA', payload: this.state})
+        // console.log('handling submit', this.state);
+        this.props.dispatch({ type: 'FETCH_HISTORIC_DATA', payload: { startDate: this.state.startDate, endDate: this.state.endDate } })
+    }
+
+    handleNext = () => {
+        this.setState({
+            ...this.state,
+            activeStep: 
+            (this.state.activeStep + 1 > 3) 
+            ? 
+                0
+            :
+                this.state.activeStep + 1
+        })
+    }
+
+    handleBack = () => {
+        this.setState({
+            ...this.state,
+            activeStep: 
+            (this.state.activeStep - 1 < 0)
+            ?
+                3
+            :
+                this.state.activeStep - 1
+        })
     }
 
     handleChange = (propertyToChange, event) => {
@@ -59,10 +85,145 @@ class HistoricData extends Component{
         })
     }
 
-    render(){
-        console.log('current historic data:', this.props.historicData);
-        console.log('current compile data:', this.compileData());
-        return(
+    charts = () => {
+        return [
+            <div className="chartDiv">
+                <h3>Temperature</h3>
+                <Bubble
+                    data={{
+                        datasets: [{
+                            label: `Temperature: ${this.state.startDate} - ${this.state.endDate}`,
+                            fill: true,
+                            borderColor: 'green',
+                            pointBackgroundColor: 'green',
+                            pointBorderColor: '#000',
+                            pointBorderWidth: 1,
+                            pointHoverRadius: 5,
+                            pointRadius: 3,
+                            pointHitRadius: 10,
+                            data: this.compileData('temp')
+                        }]
+                    }}
+                    options={
+                        {
+                            scales: {
+                                xAxes: [{
+                                    type: 'time',
+                                    time: { parser: 'YYYY/MM/DD HH:mm:ss' },
+                                    distribution: 'series'
+                                }]
+                            },
+                        }
+                    }
+                />
+            </div>,
+
+            <div className="chartDiv">
+                <h3>Humidity</h3>
+                <Bar
+                    data={{
+                        datasets: [{
+                            label: `Humidity: ${this.state.startDate} - ${this.state.endDate}`,
+                            fill: false,
+                            backgroundColor: 'red',
+                            fontSize: 10,
+                            fontStyle: 'bold',
+                            fontColor: '#fff',
+                            textAlign: 'center',
+                            xPadding: 4,
+                            yPadding: 4,
+                            position: 'top',
+                            enabled: true,
+                            content: "Threshhold",
+                            data: this.compileData('humidity')
+
+                        }]
+                    }}
+                    options={
+                        {
+                            scales: {
+                                xAxes: [{
+                                    type: 'time',
+                                    time: { parser: 'YYYY/MM/DD HH:mm:ss' },
+                                    distribution: 'series'
+                                }]
+                            }
+                        }
+                    }
+                />
+            </div>,
+
+            <div className="chartDiv">
+                <h3>Heat Index</h3>
+                <Bubble
+                    data={{
+                        datasets: [{
+                            label: `Heat Index: ${this.state.startDate} - ${this.state.endDate}`,
+                            fill: true,
+                            borderColor: 'green',
+                            pointBackgroundColor: 'green',
+                            pointBorderColor: '#000',
+                            pointBorderWidth: 1,
+                            pointHoverRadius: 5,
+                            pointRadius: 3,
+                            pointHitRadius: 10,
+                            data: this.compileData('heatIndex')
+                        }]
+                    }}
+                    options={
+                        {
+                            scales: {
+                                xAxes: [{
+                                    type: 'time',
+                                    time: { parser: 'YYYY/MM/DD HH:mm:ss' },
+                                    distribution: 'series'
+                                }]
+                            },
+                        }
+                    }
+                />
+            </div>,
+
+            <div className="chartDiv">
+                <h3>Light</h3>
+                <Line
+                    data={{
+                        datasets: [{
+                            label: `Light levels: ${this.state.startDate} - ${this.state.endDate}`,
+                            fill: false,
+                            backgroundColor: 'red',
+                            fontSize: 10,
+                            fontStyle: 'bold',
+                            fontColor: '#fff',
+                            textAlign: 'center',
+                            xPadding: 4,
+                            yPadding: 4,
+                            position: 'top',
+                            enabled: true,
+                            content: "Threshhold",
+                            data: this.compileData('light')
+
+                        }]
+                    }}
+                    options={
+                        {
+                            scales: {
+                                xAxes: [{
+                                    type: 'time',
+                                    time: { parser: 'YYYY/MM/DD HH:mm:ss' },
+                                    distribution: 'series'
+                                }]
+                            }
+                        }
+                    }
+                />
+            </div>
+
+        ]
+    }
+
+    render() {
+        return (
             <div>
                 <h1>Historic Data</h1>
                 <form onSubmit={this.fetchData}>
@@ -75,7 +236,25 @@ class HistoricData extends Component{
                     <button type="submit">Fetch Data</button>
                 </form>
 
-                <div className="chartDiv">
+                {this.charts()[this.state.activeStep]}
+                <MobileStepper
+                    steps={4}
+                    position="static"
+                    variant="text"
+                    activeStep={this.state.activeStep}
+                    nextButton={
+                        <Button size="small" onClick={this.handleNext}>
+                            NEXT
+                        </Button>
+                    }
+                    backButton={
+                        <Button size="small" onClick={this.handleBack}>
+                            BACK
+                        </Button>
+                    }
+                />
+
+                {/* <div className="chartDiv">
                     <h3>Temperature</h3>
                     <Bubble
                         data={{
@@ -205,7 +384,7 @@ class HistoricData extends Component{
                             }
                         }
                     />
-                </div>
+                </div> */}
 
             </div>
         )
@@ -213,7 +392,7 @@ class HistoricData extends Component{
 }
 
 const mapStateToProps = (reduxState) => {
-    return { 
+    return {
         historicData: reduxState.currentHistoricData
     };
 }
