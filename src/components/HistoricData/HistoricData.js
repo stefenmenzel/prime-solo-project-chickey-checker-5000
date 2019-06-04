@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import { XYPlot, XAxis, YAxis, HorizontalGridLines,RectSeries, ChartLabel, HeatmapSeries, MarkSeries, LineSeries, VerticalBarSeries, VerticalRectSeries, VerticalGridLines} from 'react-vis';
+import {Scatter, Bar} from 'react-chartjs-2';
 import moment from 'moment';
 
+import './HistoricData.css';
 // import '../../../node_modules/react-vis/dist/style.css';
 import 'react-vis/dist/style.css';
 import verticalGridLines from 'react-vis/dist/plot/vertical-grid-lines';
@@ -29,7 +31,7 @@ class HistoricData extends Component{
         
         // setting this up with test data
         startDate: new Date('2018-06-01').toISOString().substr(0,10),
-        endDate: new Date('2018-06-02').toISOString().substr(0,10),
+        endDate: new Date('2018-07-01').toISOString().substr(0,10),
     }
 
     componentDidMount(){
@@ -74,6 +76,18 @@ class HistoricData extends Component{
         return data;
     }
 
+    compileData2 = (dataType) => {
+        let data = [];
+        if(this.props.historicData.length){
+            for(let i = 0; i < this.props.historicData.length; i++){
+                let date = new Date(this.props.historicData[i].date_time);
+                data.push({x: moment.utc(date).format('YYYY/MM/DD HH:mm:ss'), y: parseFloat(this.props.historicData[i][dataType])});
+            }
+        }
+        console.log('data from compileData Two electric boogaloo:', data);
+        return data;
+    }
+
     fetchData = (event) => {
         event.preventDefault();
         console.log('handling submit', this.state);
@@ -103,11 +117,77 @@ class HistoricData extends Component{
                     <button type="submit">Fetch Data</button>
                 </form>
 
+                <div className="chartDiv">
+                    <h3>Temperature chart.js</h3>
+                    <Scatter
+                        data={{
+                            datasets: [{
+                                label: 'Temperature over Time',
+                                fill: false,
+                                borderColor: 'green',
+                                pointBackgroundColor: '#000',
+                                pointBorderColor: '#000',
+                                pointBorderWidth: 1,
+                                pointHoverRadius: 5,
+                                pointRadius: 3,
+                                pointHitRadius: 10,
+                                data: this.compileData2('temp')
+                            }]
+                        }}
+                        options={
+                            {
+                                scales: {
+                                    xAxes: [{
+                                        type: 'time',
+                                        time: { parser: 'YYYY/MM/DD HH:mm:ss' },
+                                        distribution: 'series'
+                                    }]
+                                },                                                                
+                            }
+                        }
+                    />
+                </div>  
+
+                <div className="chartDiv">
+                    <h3>Humidity chart.js</h3>
+                    <Bar
+                        data={{
+                            datasets: [{
+                                label: 'Humidity over time',
+                                fill: false,
+                                backgroundColor: 'red',                                
+                                fontSize: 10,
+                                fontStyle: 'bold',
+                                fontColor: '#fff',
+                                textAlign: 'center',
+                                xPadding: 4,
+                                yPadding: 4,
+                                position: 'top',
+                                enabled: true,
+                                content: "Threshhold",
+                                data: this.compileData2('humidity')
+                            
+                            }]
+                        }}
+                        options={
+                            {
+                                scales: {
+                                    xAxes: [{
+                                        type: 'time',
+                                        time: {parser: 'YYYY/MM/DD HH:mm:ss'},
+                                        distribution: 'series'
+                                    }]
+                                }
+                            }
+                        }
+                    />
+                </div>              
+
                 <h3>Temperature</h3>
                 <XYPlot
                     xType="time"
-                    width={800}
-                    height={800}              
+                    width={300}
+                    height={300}              
                     yDomain={[0,100]}
                     >
                     <HorizontalGridLines />
@@ -124,8 +204,8 @@ class HistoricData extends Component{
                 <XYPlot
                     xType="time"
                     margin={{left:50, botton: 100}}                    
-                    width={800}
-                    height={800}
+                    width={300}
+                    height={300}
                     xDomain={[new Date(this.state.startDate),new Date(this.state.endDate)]}
                     yDomain={[0,1]}
                 >
