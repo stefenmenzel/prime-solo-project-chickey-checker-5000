@@ -1,16 +1,6 @@
 import React, {Component} from 'react';
 
 class ProfileItem extends Component{
-    // state = {
-    //     isClicked: false,        
-    // }
-
-    // toggleInput = () => {
-    //     this.setState({
-    //         ...this.state,
-    //         isClicked: !this.state.isClicked
-    //     })
-    // }
 
     render(){
         return(
@@ -20,12 +10,6 @@ class ProfileItem extends Component{
             <span onClick={this.props.toggleInput}>{(this.props.item) ? this.props.item: '*EMPTY*'}</span>
         )
     }
-}
-
-const mapStateToProps = (reduxState) => {
-    return {
-        user: reduxState.user
-    };
 }
 
 export default ProfileItem;
