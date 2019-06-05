@@ -44,7 +44,7 @@ class HistoricData extends Component {
                 data.push({ x: moment.utc(date).format('YYYY/MM/DD HH:mm:ss'), y: parseFloat(this.props.historicData[i][dataType]) });
             }
         }
-        // console.log('data from compileData Two electric boogaloo:', data);
+        console.log('data from compileData Two electric boogaloo:', data);
         return data;
     }
 
@@ -253,138 +253,6 @@ class HistoricData extends Component {
                         </Button>
                     }
                 />
-
-                {/* <div className="chartDiv">
-                    <h3>Temperature</h3>
-                    <Bubble
-                        data={{
-                            datasets: [{
-                                label: `Temperature: ${this.state.startDate} - ${this.state.endDate}`,
-                                fill: true,
-                                borderColor: 'green',
-                                pointBackgroundColor: 'green',
-                                pointBorderColor: '#000',
-                                pointBorderWidth: 1,
-                                pointHoverRadius: 5,
-                                pointRadius: 3,
-                                pointHitRadius: 10,
-                                data: this.compileData('temp')
-                            }]
-                        }}
-                        options={
-                            {
-                                scales: {
-                                    xAxes: [{
-                                        type: 'time',
-                                        time: { parser: 'YYYY/MM/DD HH:mm:ss' },
-                                        distribution: 'series'
-                                    }]
-                                },                                                                
-                            }
-                        }
-                    />
-                </div>  
-
-                <div className="chartDiv">
-                    <h3>Humidity</h3>
-                    <Bar
-                        data={{
-                            datasets: [{
-                                label: `Humidity: ${this.state.startDate} - ${this.state.endDate}`,
-                                fill: false,
-                                backgroundColor: 'red',                                
-                                fontSize: 10,
-                                fontStyle: 'bold',
-                                fontColor: '#fff',
-                                textAlign: 'center',
-                                xPadding: 4,
-                                yPadding: 4,
-                                position: 'top',
-                                enabled: true,
-                                content: "Threshhold",
-                                data: this.compileData('humidity')
-                            
-                            }]
-                        }}
-                        options={
-                            {
-                                scales: {
-                                    xAxes: [{
-                                        type: 'time',
-                                        time: {parser: 'YYYY/MM/DD HH:mm:ss'},
-                                        distribution: 'series'
-                                    }]
-                                }
-                            }
-                        }
-                    />
-                </div>
-
-                <div className="chartDiv">
-                    <h3>Heat Index</h3>
-                    <Bubble
-                        data={{
-                            datasets: [{
-                                label: `Heat Index: ${this.state.startDate} - ${this.state.endDate}`,
-                                fill: true,
-                                borderColor: 'green',
-                                pointBackgroundColor: 'green',
-                                pointBorderColor: '#000',
-                                pointBorderWidth: 1,
-                                pointHoverRadius: 5,
-                                pointRadius: 3,
-                                pointHitRadius: 10,
-                                data: this.compileData('heatIndex')
-                            }]
-                        }}
-                        options={
-                            {
-                                scales: {
-                                    xAxes: [{
-                                        type: 'time',
-                                        time: { parser: 'YYYY/MM/DD HH:mm:ss' },
-                                        distribution: 'series'
-                                    }]
-                                },
-                            }
-                        }
-                    />
-                </div>
-
-                <div className="chartDiv">
-                    <h3>Light</h3>
-                    <Line
-                        data={{
-                            datasets: [{
-                                label: `Light levels: ${this.state.startDate} - ${this.state.endDate}`,
-                                fill: false,
-                                backgroundColor: 'red',
-                                fontSize: 10,
-                                fontStyle: 'bold',
-                                fontColor: '#fff',
-                                textAlign: 'center',
-                                xPadding: 4,
-                                yPadding: 4,
-                                position: 'top',
-                                enabled: true,
-                                content: "Threshhold",
-                                data: this.compileData('light')
-
-                            }]
-                        }}
-                        options={
-                            {
-                                scales: {
-                                    xAxes: [{
-                                        type: 'time',
-                                        time: { parser: 'YYYY/MM/DD HH:mm:ss' },
-                                        distribution: 'series'
-                                    }]
-                                }
-                            }
-                        }
-                    />
-                </div> */}
 
             </div>
         )
