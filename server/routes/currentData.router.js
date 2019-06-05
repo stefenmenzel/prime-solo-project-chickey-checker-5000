@@ -8,20 +8,38 @@ const axios = require('axios');
 /**
  * GET route template
  */
+// router.get('/currentData', rejectUnauthenticated, (req, res) => {
+//     let getUrl = `
+//         https://api.particle.io/v1/devices/${process.env.CHICKEY_CHECKER_DEVICE_NAME}/readings?access_token=${process.env.CHICKEY_CHECKER_MK1_AUTH}
+//     `
+//     console.log('current get url:', getUrl);
+//     axios.get(getUrl)
+//     .then((response) => {
+//         console.log('result from get current data route:', response.data.result);
+//         res.send(response.data.result);
+//     }).catch((error) => {
+//         console.log('Error in GET current data route:', error);
+//         res.sendStatus(500);
+//     });
+// });
+
 router.get('/currentData', rejectUnauthenticated, (req, res) => {
-    let getUrl = `
-        https://api.particle.io/v1/devices/${process.env.CHICKEY_CHECKER_DEVICE_NAME}/readings?access_token=${process.env.CHICKEY_CHECKER_MK1_AUTH}
+    let sqlQuery = `
+        SELECT * FROM "readings"
+        JOIN "user_devices" ON "readings".coop_id = "user_devices".device_id
+        WHERE "user_devices".user_id = $1
+        ORDER BY "date_time" desc
+        LIMIT 1;
     `
-    console.log('current get url:', getUrl);
-    axios.get(getUrl)
-    .then((response) => {
-        console.log('result from get current data route:', response.data.result);
-        res.send(response.data.result);
+    pool.query(sqlQuery, [req.user.id])
+    .then((result) => {
+        console.log('result from get current data route:', result.rows);
+        res.send(result.rows);
     }).catch((error) => {
-        console.log('Error in GET current data route:', error);
+        console.log('error in get current data route:', error);
         res.sendStatus(500);
     });
-});
+})
 
 router.get('/sensors', rejectUnauthenticated, (req, res) => {
     let sqlQuery = `
@@ -41,11 +59,11 @@ router.get('/sensors', rejectUnauthenticated, (req, res) => {
  * POST route template
  */
 router.post('/recordData', rejectUnauthenticated, (req, res) => {
-    console.log('req.body recordData POST:', req.body.data);
-    let temp = req.body.data.temp;
-    let humidity = req.body.data.humidity;
-    let light = req.body.data.light;
-    let hi = req.body.data.hi;
+    console.log('req.body recordData POST:', req.body);
+    let temp = req.body.temp;
+    let humidity = req.body.humidity;
+    let light = req.body.light;
+    let hi = req.body.hi;
     let sqlQuery = `
         INSERT INTO "readings" ("temp", "light", "humidity", "heatIndex", "coop_id")
         VALUES ($1, $2, $3, $4, 1);
