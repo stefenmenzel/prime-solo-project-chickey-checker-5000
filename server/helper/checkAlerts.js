@@ -46,8 +46,7 @@ function checkAlerts(currentReading, user){
             }
             res.send(result.rows);
         }).catch((error) => {
-            console.log("error in GET alerts:", error);
-            res.send(500);
+            console.log("error in GET alerts:", error);            
         });
 
     // for(let i = 0; i < alerts.length; i++){
