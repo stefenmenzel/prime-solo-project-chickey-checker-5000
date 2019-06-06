@@ -1,5 +1,6 @@
 // import store from '../index.js';
 const sendAlert = require('../routes/alert.send.router.js');
+const pool = require('../modules/pool.js');
 
 
 function checkAlerts(currentReading, user){
