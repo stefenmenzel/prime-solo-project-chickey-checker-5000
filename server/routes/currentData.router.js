@@ -4,7 +4,7 @@ const router = express.Router();
 require('dotenv').config();
 const {rejectUnauthenticated} = require('../modules/authentication-middleware.js');
 const axios = require('axios');
-import { checkAlerts } from '../../src/helpers/checkAlerts';
+const checkAlerts = require('../../src/helpers/checkAlerts');
 
 /**
  * GET route template

@@ -1,7 +1,8 @@
-import store from '../index.js';
+// import store from '../index.js';
 
 
-export function checkAlerts(currentReading){
+exports =  function checkAlerts(currentReading){
+    const store = require('../index.js');
     let reduxState = store.getState();
     let alerts = reduxState.alerts;
     let user = reduxState.user;
@@ -80,4 +81,5 @@ function sendMessage(alert, user, dispatch){
         dispatch({type: 'SEND_MAIL_ALERT', payload: {user, alert}});
     }
 }
+
 
