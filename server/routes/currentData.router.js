@@ -61,10 +61,10 @@ router.get('/sensors', rejectUnauthenticated, (req, res) => {
 router.post('/recordData', (req, res) => {
     console.log('req.body recordData POST:', req.body);
     console.log('req.query.data from webhook:', req.query);
-    let temp = req.body.temp;
-    let humidity = req.body.humidity;
-    let light = req.body.light;
-    let hi = req.body.hi;
+    let temp = req.body.data.temp;
+    let humidity = req.body.data.humidity;
+    let light = req.body.data.light;
+    let hi = req.body.data.hi;
     let sqlQuery = `
         INSERT INTO "readings" ("temp", "light", "humidity", "heatIndex", "coop_id")
         VALUES ($1, $2, $3, $4, 1);
