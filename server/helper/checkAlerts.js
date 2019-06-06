@@ -7,9 +7,10 @@ function checkAlerts(currentReading, user){
 
     let sqlQuery = `
         SELECT "alerts".id, "sensor_metrics".metric, "alerts".condition, "alerts".value,
-        "alerts".active, "alerts".email, "alerts".phone
+        "alerts".active, "alerts".email, "alerts".phone, "user".email, "user".phone_number
         FROM "alerts"
         JOIN "sensor_metrics" on "alerts".metric_id = "sensor_metrics".id
+        JOIN "user" on "alerts".user_id = "user".id
         ORDER BY "alerts".id;
     `
     pool.query(sqlQuery)
@@ -20,22 +21,22 @@ function checkAlerts(currentReading, user){
                 switch (alerts[i].metric) {
                     case 'temperature':
                         if (alerts[i].active) {
-                            checkAlertCondition(currentReading.temp, alerts[i], user);
+                            checkAlertCondition(currentReading.temp, alerts[i]);
                         }
                         break;
                     case 'humidity':
                         if (alerts[i].active) {
-                            checkAlertCondition(currentReading.humidity, alerts[i], user);
+                            checkAlertCondition(currentReading.humidity, alerts[i]);
                         }
                         break;
                     case 'heatIndex':
                         if (alerts[i].active) {
-                            checkAlertCondition(currentReading.hi, alerts[i], user);
+                            checkAlertCondition(currentReading.hi, alerts[i]);
                         }
                         break;
                     case 'light':
                         if (alerts[i].active) {
-                            checkAlertCondition(currentReading.light, alerts[i], user);
+                            checkAlertCondition(currentReading.light, alerts[i]);
                         }
                         break;
 
@@ -78,26 +79,26 @@ function checkAlerts(currentReading, user){
     // }
 }
 
-function checkAlertCondition(reading, alert, user){    
+function checkAlertCondition(reading, alert){    
     switch (alert.condition) {
         case '<':
             if(reading < alert.value){
-                sendMessage(alert, user);
+                sendMessage(alert);
             }
             break;
         case '>':
             if(reading > alert.value){
-                sendMessage(alert, user);
+                sendMessage(alert);
             }
             break;
         case '<=':
             if(reading <= alert.value){
-                sendMessage(alert, user);
+                sendMessage(alert);
             }
             break;
         case '>=':
             if(reading >= alert.value){
-                sendMessage(alert, user);
+                sendMessage(alert);
             }
             break;
         default:
@@ -105,20 +106,20 @@ function checkAlertCondition(reading, alert, user){
     }
 }
 
-function sendMessage(alert, user, dispatch){
+function sendMessage(alert){
     if(alert.email && alert.phone){
-        sendAlert.sendMail({user: user, alert: alert});
-        sendAlert.sendText({user:user, alert:alert});
+        sendAlert.sendMail({user: {email: alert.email, phone_number: alert.phone_number}, alert: alert});
+        sendAlert.sendText({ user: { email: alert.email, phone_number: alert.phone_number }, alert:alert});
         // dispatch({type:'SEND_MAIL_ALERT', payload: {user, alert}});
         // dispatch({type: 'SEND_TEXT_ALERT', payload: {user, alert}});
     }
     else if(!alert.email && alert.phone){
         // dispatch({type: 'SEND_TEXT_ALERT', payload: {user, alert}});
-        sendAlert.sendText({ user: user, alert: alert });
+        sendAlert.sendText({ user: { email: alert.email, phone_number: alert.phone_number }, alert: alert });
     }
     else if(alert.email && !alert.phone){
         // dispatch({type: 'SEND_MAIL_ALERT', payload: {user, alert}});
-        sendAlert.sendMail({ user: user, alert: alert });
+        sendAlert.sendMail({ user: { email: alert.email, phone_number: alert.phone_number }, alert: alert });
     }
 }
 
