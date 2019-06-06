@@ -76,7 +76,7 @@ router.post('/recordData', (req, res) => {
         hi: hi
     }
     console.log('payload before checkalerts:', payload);
-    checkAlerts(payload);
+    checkAlerts(payload, req.user);
     let sqlQuery = `
         INSERT INTO "readings" ("temp", "light", "humidity", "heatIndex", "coop_id")
         VALUES ($1, $2, $3, $4, 1);
