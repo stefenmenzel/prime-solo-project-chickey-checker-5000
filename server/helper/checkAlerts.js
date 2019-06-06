@@ -3,7 +3,7 @@ const sendAlert = require('../routes/alert.send.router.js');
 const pool = require('../modules/pool.js');
 
 
-function checkAlerts(currentReading, user){
+function checkAlerts(currentReading){
 
     let sqlQuery = `
         SELECT "alerts".id, "sensor_metrics".metric, "alerts".condition, "alerts".value,
@@ -43,8 +43,7 @@ function checkAlerts(currentReading, user){
                     default:
                         break;
                 }
-            }
-            res.send(result.rows);
+            }            
         }).catch((error) => {
             console.log("error in GET alerts:", error);            
         });
