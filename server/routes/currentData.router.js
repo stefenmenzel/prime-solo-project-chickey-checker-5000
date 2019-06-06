@@ -4,6 +4,7 @@ const router = express.Router();
 require('dotenv').config();
 const {rejectUnauthenticated} = require('../modules/authentication-middleware.js');
 const axios = require('axios');
+import { checkAlerts } from '../../src/helpers/checkAlerts';
 
 /**
  * GET route template
@@ -68,6 +69,13 @@ router.post('/recordData', (req, res) => {
     let humidity = parsedData.humidity;
     let light = parsedData.light;
     let hi = parsedData.hi;
+    let payload = {
+        temp : temp,
+        humidity: humidity,
+        light: light,
+        hi: hi
+    }
+    checkAlerts(payload)
     let sqlQuery = `
         INSERT INTO "readings" ("temp", "light", "humidity", "heatIndex", "coop_id")
         VALUES ($1, $2, $3, $4, 1);

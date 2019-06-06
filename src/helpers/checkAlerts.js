@@ -1,7 +1,7 @@
 import store from '../index.js';
 
 
-export function checkAlerts(){
+export function checkAlerts(currentReading){
     let reduxState = store.getState();
     let alerts = reduxState.alerts;
     let user = reduxState.user;
@@ -16,22 +16,22 @@ export function checkAlerts(){
         switch (alerts[i].metric) {
             case 'temperature':
                 if(alerts[i].active){
-                    checkAlertCondition(currentData.temp, alerts[i], user, dispatch);
+                    checkAlertCondition(currentReading.temp, alerts[i], user, dispatch);
                 }                
                 break;
             case 'humidity':
                 if (alerts[i].active) {
-                    checkAlertCondition(currentData.humidity, alerts[i], user, dispatch);
+                    checkAlertCondition(currentReading.humidity, alerts[i], user, dispatch);
                 }
                 break;
             case 'heatIndex':
                 if (alerts[i].active) {
-                    checkAlertCondition(currentData.hi, alerts[i], user, dispatch);
+                    checkAlertCondition(currentReading.hi, alerts[i], user, dispatch);
                 }
                 break;
             case 'light':
                 if (alerts[i].active) {
-                    checkAlertCondition(currentData.light, alerts[i], user, dispatch);
+                    checkAlertCondition(currentReading.light, alerts[i], user, dispatch);
                 }
                 break;
         
