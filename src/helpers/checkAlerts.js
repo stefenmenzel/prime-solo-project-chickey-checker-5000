@@ -1,8 +1,7 @@
-// import store from '../index.js';
+import store from '../index.js';
 
 
-function checkAlerts(currentReading){
-    const store = require('../index.js');
+function checkAlerts(currentReading){    
     let reduxState = store.getState();
     let alerts = reduxState.alerts;
     let user = reduxState.user;
