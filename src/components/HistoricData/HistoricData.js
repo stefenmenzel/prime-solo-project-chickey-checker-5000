@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { MobileStepper, Paper, Typography, Button, KeyboardArrowLeft, KeyboardArrowRight, SwipeableViews } from '@material-ui/core';
 import { Scatter, Bar, Bubble, Line } from 'react-chartjs-2';
 import moment from 'moment';
+import momentTimezone from 'moment-timezone';
 
 import './HistoricData.css';
 
@@ -16,6 +17,7 @@ class HistoricData extends Component {
         startDate: new Date('2018-06-01').toISOString().substr(0, 10),
         endDate: new Date('2018-07-01').toISOString().substr(0, 10),
         activeStep: 0,
+        timezoneOffset: Intl.DateTimeFormat().resolvedOptions().timeZone
     }
 
     componentDidMount() {
@@ -41,7 +43,7 @@ class HistoricData extends Component {
         if (this.props.historicData.length) {
             for (let i = 0; i < this.props.historicData.length; i++) {
                 let date = new Date(this.props.historicData[i].date_time);
-                data.push({ x: moment.utc(date).format('YYYY/MM/DD HH:mm:ss'), y: parseFloat(this.props.historicData[i][dataType]) });
+                data.push({ x: momentTimezone.utc(date).tz(this.state.timezoneOffset).format('YYYY/MM/DD HH:mm:ss'), y: parseFloat(this.props.historicData[i][dataType]) });
             }
         }
         console.log('data from compileData Two electric boogaloo:', data);
@@ -223,6 +225,7 @@ class HistoricData extends Component {
     }
 
     render() {
+        console.log('this.state.timezoneoffset:', this.state.timezoneOffset);
         return (
             <div>
                 <h1>Historic Data</h1>
