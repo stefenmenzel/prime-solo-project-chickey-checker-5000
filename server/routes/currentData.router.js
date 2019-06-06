@@ -60,6 +60,7 @@ router.get('/sensors', rejectUnauthenticated, (req, res) => {
  */
 router.post('/recordData', (req, res) => {
     console.log("req.body record data POST data:", req.body.data);
+    console.log('req.body data temp from webhook', req.body.data.temp);
     console.log('req.body recordData POST:', req.body);
     console.log('req.query.data from webhook:', req.query);
     let temp = req.body.data.temp;
