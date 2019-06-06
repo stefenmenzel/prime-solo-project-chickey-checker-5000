@@ -82,4 +82,4 @@ function sendMessage(alert, user, dispatch){
     }
 }
 
-module.exports = checkAlerts;
+export default checkAlerts;
