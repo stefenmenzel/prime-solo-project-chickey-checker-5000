@@ -58,7 +58,7 @@ router.get('/sensors', rejectUnauthenticated, (req, res) => {
 /**
  * POST route template
  */
-router.post('/recordData', rejectUnauthenticated, (req, res) => {
+router.post('/recordData', (req, res) => {
     console.log('req.body recordData POST:', req.body);
     console.log('req.query.data from webhook:', req.query);
     let temp = req.body.temp;
