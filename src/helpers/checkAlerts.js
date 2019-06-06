@@ -1,7 +1,7 @@
 // import store from '../index.js';
 
 
-exports =  function checkAlerts(currentReading){
+function checkAlerts(currentReading){
     const store = require('../index.js');
     let reduxState = store.getState();
     let alerts = reduxState.alerts;
@@ -82,4 +82,4 @@ function sendMessage(alert, user, dispatch){
     }
 }
 
-
+module.exports = checkAlerts;
