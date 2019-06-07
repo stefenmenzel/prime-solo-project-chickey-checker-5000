@@ -54,55 +54,53 @@ function craftMessage(alert){
 }
 
 router.post('/mail', rejectUnauthenticated, (req, res) => {
-    // console.log('req.body in send mail:', req.body);
-    // let user = req.body.user;
-    // let alert = req.body.alert;
-    // let email = user.email;
-    // let message = craftMessage(alert);
-    // let content = `email: ${email} \n message: ${message}`;
+    console.log('req.body in send mail:', req.body);
+    let user = req.body.user;
+    let alert = req.body.alert;
+    let email = user.email;
+    let message = craftMessage(alert);
+    let content = `email: ${email} \n message: ${message}`;
 
-    // let mail = {
-    //     from: 'Chickey-Checker-5000',
-    //     to: email,
-    //     subject: `ALERT FROM CHICKEY CHECKER!`,
-    //     text: message
-    // }
+    let mail = {
+        from: 'Chickey-Checker-5000',
+        to: email,
+        subject: `ALERT FROM CHICKEY CHECKER!`,
+        text: message
+    }
 
-    // transporter.sendMail(mail, (err, data) => {
-    //     if (err) {
-    //         console.log('error in sending alert email:', err);
-    //         res.sendStatus(500)
-    //         // ({
-    //         // msg: 'Failure in sending chickey checker alert email'
-    //         // })
-    //     }
-    //     else {
-    //         res.sendStatus(200);
-    //         // res.json({
-    //         // msg: 'Success in sending chickey checker alert email'
-    //         // })
-    //     }
-    // })
-
-    sendMail(req.body);
+    transporter.sendMail(mail, (err, data) => {
+        if (err) {
+            console.log('error in sending alert email:', err);
+            res.sendStatus(500)
+            // ({
+            // msg: 'Failure in sending chickey checker alert email'
+            // })
+        }
+        else {
+            res.sendStatus(200);
+            // res.json({
+            // msg: 'Success in sending chickey checker alert email'
+            // })
+        }
+    })
+    
 })
 
 router.post('/text', rejectUnauthenticated, (req, res) => {
-    // console.log("req.body in text message:", req.body);
-    // client.messages.create({
-    //     body: craftMessage(req.body.alert),
-    //     from: process.env.TWILLIO_NUMBER,
-    //     to: `+1${req.body.user.phone_number}`
-    // })
-    // .then(message => {
-    //     console.log(message.sid);
-    //     res.sendStatus(200);
-    // })
-    // .catch(error => {
-    //     console.log('error in sending text alert:', error);
-    //     res.sendStatus(500);
-    // });
-    sendText(req.body);
+    console.log("req.body in text message:", req.body);
+    client.messages.create({
+        body: craftMessage(req.body.alert),
+        from: process.env.TWILLIO_NUMBER,
+        to: `+1${req.body.user.phone_number}`
+    })
+    .then(message => {
+        console.log(message.sid);
+        res.sendStatus(200);
+    })
+    .catch(error => {
+        console.log('error in sending text alert:', error);
+        res.sendStatus(500);
+    });    
 })
 
 function sendMail(body){

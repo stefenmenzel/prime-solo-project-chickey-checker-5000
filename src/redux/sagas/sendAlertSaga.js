@@ -7,7 +7,7 @@ function* sendMailAlert(action){
             headers: {'Content-type': 'application/json'},
             withCredentials: true,
         }
-        
+        console.log("inside send mail alert saga with:", action);
         yield axios.post('/api/sendAlert/mail', action.payload, config);                
     }catch(err){
         console.log('error in sending email alert:', err);

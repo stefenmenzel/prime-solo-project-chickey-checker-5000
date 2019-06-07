@@ -1,7 +1,7 @@
 import store from '../index.js';
 
 
-function checkAlerts(currentReading){    
+export function checkAlerts(){    
     let reduxState = store.getState();
     let alerts = reduxState.alerts;
     let user = reduxState.user;
@@ -13,25 +13,26 @@ function checkAlerts(currentReading){
     // console.log('dispatch is:', store.dispatch());
     console.log("store is:", store);
     for(let i = 0; i < alerts.length; i++){
+        console.log("inside for loop in check alerts", alerts[i]);
         switch (alerts[i].metric) {
             case 'temperature':
                 if(alerts[i].active){
-                    checkAlertCondition(currentReading.temp, alerts[i], user, dispatch);
+                    checkAlertCondition(currentData[0].temp, alerts[i], user, dispatch);
                 }                
                 break;
             case 'humidity':
                 if (alerts[i].active) {
-                    checkAlertCondition(currentReading.humidity, alerts[i], user, dispatch);
+                    checkAlertCondition(currentData[0].humidity, alerts[i], user, dispatch);
                 }
                 break;
             case 'heatIndex':
                 if (alerts[i].active) {
-                    checkAlertCondition(currentReading.hi, alerts[i], user, dispatch);
+                    checkAlertCondition(currentData[0].heatIndex, alerts[i], user, dispatch);
                 }
                 break;
             case 'light':
                 if (alerts[i].active) {
-                    checkAlertCondition(currentReading.light, alerts[i], user, dispatch);
+                    checkAlertCondition(currentData[0].light, alerts[i], user, dispatch);
                 }
                 break;
         
@@ -41,7 +42,7 @@ function checkAlerts(currentReading){
     }
 }
 
-function checkAlertCondition(reading, alert, user, dispatch){    
+function checkAlertCondition(reading, alert, user, dispatch){       
     switch (alert.condition) {
         case '<':
             if(reading < alert.value){
@@ -54,7 +55,7 @@ function checkAlertCondition(reading, alert, user, dispatch){
             }
             break;
         case '<=':
-            if(reading <= alert.value){
+            if(reading <= alert.value){                
                 sendMessage(alert, user, dispatch);
             }
             break;
@@ -68,7 +69,7 @@ function checkAlertCondition(reading, alert, user, dispatch){
     }
 }
 
-function sendMessage(alert, user, dispatch){
+function sendMessage(alert, user, dispatch){    
     if(alert.email && alert.phone){
         dispatch({type:'SEND_MAIL_ALERT', payload: {user, alert}});
         dispatch({type: 'SEND_TEXT_ALERT', payload: {user, alert}});
@@ -81,4 +82,3 @@ function sendMessage(alert, user, dispatch){
     }
 }
 
-export default checkAlerts;
