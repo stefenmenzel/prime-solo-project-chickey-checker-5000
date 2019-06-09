@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
+import {TableRow, TableCell, IconButton, Checkbox} from '@material-ui/core';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 
 class AlertItem extends Component{
 
@@ -48,14 +50,26 @@ class AlertItem extends Component{
     render(){
         console.log('this.props.alerts', this.props.alert);
         return(
-            <tr>
-                <td>{this.props.alert.metric}</td>
-                <td>{this.conditionToString(this.props.alert.condition)} {this.props.alert.value}</td>
-                <td>{this.methodsToString(this.props.alert.email, this.props.alert.phone)}</td>
-                <td><input type="checkbox" checked={this.props.alert.active} onChange={() => this.toggleActive(this.props.alert.id)} /></td>
+            <TableRow>
+                <TableCell>{this.props.alert.metric}</TableCell>
+                <TableCell>{this.conditionToString(this.props.alert.condition)} {this.props.alert.value}</TableCell>
+                <TableCell>{this.methodsToString(this.props.alert.email, this.props.alert.phone)}</TableCell>
+                <TableCell>
+                    <Checkbox
+                        checked={this.props.alert.active} onChange={() => this.toggleActive(this.props.alert.id)}
+                        value="active"
+                        inputProps={{
+                            'aria-label': 'active checkbox'
+                        }}
+                    />                    
+                </TableCell>
                 {/* <td>{this.props.alert.active}</td> */}
-                <td><button onClick={() => this.handleDelete(this.props.alert.id)}>X</button></td>
-            </tr>
+                <TableCell>
+                    <IconButton color="inherit" aria-label="Delete" onClick={() => this.handleDelete(this.props.alert.id)}>
+                        <DeleteOutlinedIcon />
+                    </IconButton>                    
+                </TableCell>
+            </TableRow>
         )
     }
 }
