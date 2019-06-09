@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { Grid, Button } from '@material-ui/core';
+
 class LoginPage extends Component {
   state = {
     username: '',
@@ -40,40 +42,65 @@ class LoginPage extends Component {
             {this.props.errors.loginMessage}
           </h2>
         )}
-        <form onSubmit={this.login}>
-          <h1>Login</h1>
-          <div>
-            <label htmlFor="username">
-              Username:
-              <input
-                type="text"
-                name="username"
-                value={this.state.username}
-                onChange={this.handleInputChangeFor('username')}
-              />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="password">
-              Password:
-              <input
-                type="password"
-                name="password"
-                value={this.state.password}
-                onChange={this.handleInputChangeFor('password')}
-              />
-            </label>
-          </div>
-          <div>
-            <input
-              className="log-in"
-              type="submit"
-              name="submit"
-              value="Log In"
-            />
-          </div>
-        </form>
-        <center>
+        <Grid container justify="center">
+          <Grid item xs={12}>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={10} style={{ marginLeft: 'auto' }}>
+              <form onSubmit={this.login}>
+                <div className="cc5FormInner">
+                  <h1>Login</h1>
+                  <div>
+                    <label htmlFor="username">
+                      Username:
+                    <input
+                        type="text"
+                        name="username"
+                        value={this.state.username}
+                        onChange={this.handleInputChangeFor('username')}
+                      />
+                    </label>
+                  </div>
+                  <div>
+                    <label htmlFor="password">
+                      Password:
+                    <input
+                        type="password"
+                        name="password"
+                        value={this.state.password}
+                        onChange={this.handleInputChangeFor('password')}
+                      />
+                    </label>
+                  </div>
+                  <div>
+                    <Button
+                      variant="contained"                      
+                      type="submit"
+                      name="submit"
+                      color="primary"
+                    >
+                      Log In
+                    </Button>
+                  </div>
+                </div>
+              </form>
+            </Grid>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={10} style={{ marginLeft: 'auto' }}>
+              <Grid item xs={5} style={{ marginLeft: '20%' }}>
+                <Button
+                  type="button"
+                  // className="link-button"
+                  onClick={() => { this.props.dispatch({ type: 'SET_TO_REGISTER_MODE' }) }}
+                  color="primary"
+                >
+                  Register
+              </Button>
+              </Grid>
+            </Grid>
+            {/* <Grid item xs={7}></Grid> */}
+          </Grid>
+        </Grid>
+        {/* <center>
           <button
             type="button"
             className="link-button"
@@ -81,7 +108,7 @@ class LoginPage extends Component {
           >
             Register
           </button>
-        </center>
+        </center> */}
       </div>
     );
   }

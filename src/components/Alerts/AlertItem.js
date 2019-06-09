@@ -1,7 +1,16 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
-import {TableRow, TableCell, IconButton, Checkbox} from '@material-ui/core';
+import {TableRow, TableCell, IconButton, Checkbox, Fab} from '@material-ui/core';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import DeleteTwoToneIcon from '@material-ui/icons/DeleteTwoTone';
+import DeleteIcon from '@material-ui/icons/Delete';
+import {withStyles} from '@material-ui/core/styles';
+
+const style = {
+    fab: {
+        // backgroundColor: 'secondary'
+    }
+}
 
 class AlertItem extends Component{
 
@@ -61,12 +70,13 @@ class AlertItem extends Component{
                         inputProps={{
                             'aria-label': 'active checkbox'
                         }}
+                        color="primary"
                     />                    
                 </TableCell>
                 {/* <td>{this.props.alert.active}</td> */}
-                <TableCell>
+                <TableCell>                    
                     <IconButton color="inherit" aria-label="Delete" onClick={() => this.handleDelete(this.props.alert.id)}>
-                        <DeleteOutlinedIcon />
+                        <DeleteIcon />
                     </IconButton>                    
                 </TableCell>
             </TableRow>
@@ -78,4 +88,6 @@ const mapStateToProps = (reduxState) => {
     return {user: reduxState.user};
 }
 
-export default connect(mapStateToProps)(AlertItem);
+const connectedAlertItem = connect(mapStateToProps)(AlertItem);
+// export default connect(mapStateToProps)(AlertItem);
+export default withStyles(style)(connectedAlertItem);

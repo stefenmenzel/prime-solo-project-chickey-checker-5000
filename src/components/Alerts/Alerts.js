@@ -1,12 +1,19 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Table, TableBody, TableCell, TableHead, TableRow, 
-        Button, IconButton, Grid} from '@material-ui/core';
+        Button, IconButton, Grid, Fab} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import {withStyles} from '@material-ui/core/styles';
 
 import AlertItem from './AlertItem.js';
 
-class Alerts extends Component{
+const style = {
+    fab: {
+        backgroundColor: 'primary'
+    }
+}
+
+class Alerts extends Component{    
 
     componentDidMount(){
         this.props.dispatch({type:'FETCH_ALERTS'});
@@ -46,9 +53,9 @@ class Alerts extends Component{
                         <Grid container justify="flex-end">
                             <Grid item xs={10}></Grid>
                             <Grid item xs={1} style={{ marginTop: '20px' }} justify='flex-end'>
-                                <IconButton color="inherit" aria-label="add new alert" onClick={this.addAlert}>
-                                    <AddIcon color="primary" styles={{'background-color': 'blue'}} />
-                                </IconButton>
+                                <Fab onClick={this.addAlert} color="primary" aria-label="Add new alert" className={this.props.classes.fab}>
+                                    <AddIcon />
+                                </Fab>                                
                             </Grid>
                         </Grid>                        
                         <br />                        
@@ -66,4 +73,7 @@ const mapStateToProps = (reduxState) => {
     return { alerts: reduxState.alerts };
 }
 
-export default connect(mapStateToProps)(Alerts);
+const connectedAlert = connect(mapStateToProps)(Alerts);
+
+export default withStyles(style)(connectedAlert);
+// export default connect(mapStateToProps)(Alerts);
