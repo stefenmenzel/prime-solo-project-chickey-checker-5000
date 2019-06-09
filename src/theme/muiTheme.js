@@ -1,4 +1,6 @@
 import {createMuiTheme} from '@material-ui/core';
+import createTypography from '@material-ui/core/styles/createTypography';
+import {createPalette} from '@material-ui/core/styles';
 
 const theme = createMuiTheme({    
     palette: {
@@ -13,6 +15,10 @@ const theme = createMuiTheme({
             light: '#ffa06d',
             dark: '#c53d13'
         }
+    },
+
+    typography: {
+        fontFamily: "'Fira Sans', 'sans-serif'",
     },
 
     overrides: {
