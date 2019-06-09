@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import {
   AppBar, Toolbar, Typography, IconButton,
-  Drawer, List, ListItem, ListItemIcon, ListItemText
+  Drawer, List, ListItem, ListItemIcon, ListItemText, Divider
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import {Alarm, BarChart, AccountCircle, Assessment, Dashboard, Input} from '@material-ui/icons';
 import cc5Icon from '../../customIcons/cc5Icon.jsx';
 import './Nav.css';
 
@@ -62,41 +63,56 @@ class Nav extends Component {
   getSideList = () => {
     return (
       <div>
-        {/* dashboard, alerts, historic data, about, log out */}
-        <List>
-          <ListItem component={Link} to="/dashboard" button>
-            {/* Show this link if they are logged in or not,
+        <Typography>
+          {/* dashboard, alerts, historic data, about, log out */}
+          <List>
+            <ListItem style={{textAlign: 'center', display:'block'}}>
+              <img src='images/Chickey-Checker-5000-logo-2.png' height='50px' width='50px' />
+            </ListItem>
+            <Divider />            
+            <ListItem component={Link} to="/dashboard" button>
+              {/* Show this link if they are logged in or not,
             but call this link 'Dashboard' if they are logged in,
             and call this link 'Login / Register' if they are not */}
-            {this.props.user.id ? 'Dashboard' : 'Login / Register'}
-          </ListItem>
+              {this.props.user.id ? 
+                <>
+                  <Dashboard color="primary" />
+                  <Typography variant="h5">Dashboard</Typography>
+                </>
+                : 
+                'Login / Register'}
+            </ListItem>
 
-          {this.props.user.id && (
-            <>
+            {this.props.user.id && (
+              <>
 
-              <ListItem component={Link} to="/alerts" button>                
-                  Alerts              
+              <ListItem component={Link} to="/alerts" button>
+                <Alarm color="primary" />
+                <span>{' '}</span>                
+                <Typography variant="h5">Alerts</Typography>                  
               </ListItem>
 
-              <ListItem component={Link} to="historicData" button>                
-                  Historic Data              
+                <ListItem component={Link} to="historicData" button>
+                  <Assessment color="primary" />
+                  <Typography variant="h5">Historic Data</Typography>
               </ListItem>
 
-              <ListItem component={Link} to="profile" button>                
-                  Profile              
+                <ListItem component={Link} to="profile" button>
+                  <AccountCircle color="primary" />
+                  <Typography variant="h5">Profile</Typography>
+              </ListItem>
+              <ListItem component={LogOutButton} button nav={true} ContainerProps={{nav: 'true'}}>                  
+                  {/* <Typography variant="h5">Log Out</Typography> */}
+              {/* <LogOutButton /> */}
               </ListItem>
 
-              <ListItem component={LogOutButton} button>
-                Log Out
-                {/* <LogOutButton className="nav-link" /> */}
-              </ListItem>
-
-            </>
-          )}
-          <ListItem component={Link} to="/about" button>            
-              About            
-          </ListItem>          
-        </List>        
+              </>
+            )}
+            {/* <ListItem component={Link} to="/about" button>
+              About
+          </ListItem> */}
+          </List>
+        </Typography>
       </div>
     )
   }
@@ -117,9 +133,9 @@ class Nav extends Component {
               <LogOutButton
                 style={{ marginLeft: 'auto' }}
                 color="inherit"
-              />              
-            }            
-          </Toolbar>          
+              />
+            }
+          </Toolbar>
         </AppBar>
         <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
           <div
@@ -130,8 +146,8 @@ class Nav extends Component {
           >
             {this.getSideList()}
           </div>
-        </Drawer>        
-        </div>      
+        </Drawer>
+      </div>
     )
   }
 }

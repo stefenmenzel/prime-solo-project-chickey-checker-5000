@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import ProfileItem from './ProfileItem';
+import { Grid, Button, Typography, TextField, Fab } from '@material-ui/core';
+import {Edit} from '@material-ui/icons';
 
-import {Grid, Button, Typography, TextField} from '@material-ui/core';
+import './Profile.css';
 
 class Profile extends Component{
 
@@ -63,14 +65,20 @@ class Profile extends Component{
                 <Grid item xs={12}>
                     <Grid item xs={2}></Grid>
                     <Grid item xs={10} style={{marginLeft:'auto'}}>
-                        <form onSubmit={this.handleSubmit}>
+                        <form onSubmit={this.handleSubmit} className="profileForm">
                             <div className="cc5FormInner">
-                                <h1>Profile</h1>
-                                <div><Typography>First Name: <ProfileItem toggleInput={this.toggleInput} isClicked={this.state.isClicked} handleChange={this.handleChange} valueToChange="first_name" item={this.state.first_name} /></Typography></div>
-                                <div><Typography>Last Name: <ProfileItem toggleInput={this.toggleInput} isClicked={this.state.isClicked} handleChange={this.handleChange} valueToChange="last_name" item={this.state.last_name} /></Typography></div>
-                                <div><Typography>Email: <ProfileItem toggleInput={this.toggleInput} isClicked={this.state.isClicked} handleChange={this.handleChange} valueToChange="email" item={this.state.email} /></Typography></div>
-                                <div><Typography>Phone Number: <ProfileItem toggleInput={this.toggleInput} isClicked={this.state.isClicked} handleChange={this.handleChange} valueToChange="phone_number" item={this.state.phone_number} /></Typography></div>
-                                <Button color="primary" variant="contained" type="submit">save</Button>
+                                <Typography variant="h4">Profile</Typography>
+                                {/* <h1>Profile</h1> */}
+                                <div className="profileItem" ><Typography style={{justifyContent:"center"}}><div className="profileLabel">First Name: </div><ProfileItem toggleInput={this.toggleInput} isClicked={this.state.isClicked} handleChange={this.handleChange} valueToChange="first_name" item={this.state.first_name} /></Typography></div>
+                                <div className="profileItem"><Typography>Last Name: <ProfileItem toggleInput={this.toggleInput} isClicked={this.state.isClicked} handleChange={this.handleChange} valueToChange="last_name" item={this.state.last_name} /></Typography></div>
+                                <div className="profileItem"><Typography>Email: <ProfileItem toggleInput={this.toggleInput} isClicked={this.state.isClicked} handleChange={this.handleChange} valueToChange="email" item={this.state.email} /></Typography></div>
+                                <div className="profileItem"><Typography>Phone Number: <ProfileItem toggleInput={this.toggleInput} isClicked={this.state.isClicked} handleChange={this.handleChange} valueToChange="phone_number" item={this.state.phone_number} /></Typography></div>
+                                <Grid item xs={12}>                                    
+                                    <Button color="primary" variant="contained" type="submit">save</Button>                                                                        
+                                    <Button style={{float: 'right'}} color="primary" aria-label="Edit Profile" onClick={this.toggleInput}>
+                                        <Edit />
+                                    </Button>
+                                </Grid>                                
                             </div>
                         </form>
                     </Grid>

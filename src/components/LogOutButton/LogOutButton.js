@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {Button} from '@material-ui/core'
+import {Button, Typography} from '@material-ui/core'
+import { Input } from '@material-ui/icons';
 
-const LogOutButton = props => (
+const LogOutButton = props => (        
   <Button    
     // This button shows up in multiple locations and is styled differently
     // because it's styled differently depending on where it is used, the className
@@ -12,7 +13,10 @@ const LogOutButton = props => (
     style={{marginLeft: 'auto'}}
     color="inherit"
   >
-    Log Out
+    {(props.nav) ? <Input color="primary"/> : ''}
+    <Typography variant="h6">
+      Log Out
+    </Typography>
   </Button>
 );
 

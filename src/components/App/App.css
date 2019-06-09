@@ -31,7 +31,8 @@ input {
 }
 
 .cc5FormInner {
-    margin-left:20px;    
+    margin-left:20px;
+    padding-top:10px;
 }
 
 .log-in, .log-out, .register {
