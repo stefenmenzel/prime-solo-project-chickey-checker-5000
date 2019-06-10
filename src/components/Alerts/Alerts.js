@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Table, TableBody, TableCell, TableHead, TableRow, 
-        Button, IconButton, Grid, Fab} from '@material-ui/core';
+        Button, IconButton, Grid, Fab, Typography} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import {withStyles} from '@material-ui/core/styles';
 
@@ -31,7 +31,8 @@ class Alerts extends Component{
             <Grid container>                
                 <Grid container justify="center">
                     <Grid item xs={11}>
-                        <h1>Alerts</h1>
+                        <Typography variant="h3" style={{marginTop:'5%'}}>Alerts</Typography>
+                        {/* <h1>Alerts</h1> */}
                     </Grid>                    
                     <Grid item xs={11}>
                         <Table>
