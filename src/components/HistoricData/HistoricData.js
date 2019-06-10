@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { MobileStepper, Paper, Typography, Button, KeyboardArrowLeft, KeyboardArrowRight, SwipeableViews } from '@material-ui/core';
-import { Scatter, Bar, Bubble, Line } from 'react-chartjs-2';
+import { MobileStepper, Paper, Typography, Button, Grid, TextField } from '@material-ui/core';
+import { Bar, Bubble, Line } from 'react-chartjs-2';
 import moment from 'moment';
 import momentTimezone from 'moment-timezone';
 
@@ -90,7 +90,8 @@ class HistoricData extends Component {
     charts = () => {
         return [
             <div className="chartDiv">
-                <h3>Temperature</h3>
+                <Typography variant="h5">Temperature</Typography>
+                {/* <h3>Temperature</h3> */}
                 <Bubble
                     data={{
                         datasets: [{
@@ -121,7 +122,8 @@ class HistoricData extends Component {
             </div>,
 
             <div className="chartDiv">
-                <h3>Humidity</h3>
+                <Typography variant="h5">Humidity</Typography>
+                {/* <h3>Humidity</h3> */}
                 <Bar
                     data={{
                         datasets: [{
@@ -156,7 +158,8 @@ class HistoricData extends Component {
             </div>,
 
             <div className="chartDiv">
-                <h3>Heat Index</h3>
+                <Typography variant="h5">Heat Index</Typography>
+                {/* <h3>Heat Index</h3> */}
                 <Bubble
                     data={{
                         datasets: [{
@@ -187,7 +190,8 @@ class HistoricData extends Component {
             </div>,
 
             <div className="chartDiv">
-                <h3>Light</h3>
+                <Typography variant="h5">Light</Typography>
+                {/* <h3>Light</h3> */}
                 <Line
                     data={{
                         datasets: [{
@@ -226,38 +230,69 @@ class HistoricData extends Component {
 
     render() {
         console.log('this.state.timezoneoffset:', this.state.timezoneOffset);
-        return (
-            <div>
-                <h1>Historic Data</h1>
-                <form onSubmit={this.fetchData}>
-                    <label htmlFor="startDate">Start Date</label>
-                    <input onChange={(e) => this.handleChange("startDate", e)} value={this.state.startDate} name="startDate" type="date" />
+        return (            
+            <Grid container justify="center">
+                <Grid item xs={12}>
+                    <Grid item xs={2}></Grid>
+                    <Grid item xs={10} style={{marginLeft:'auto'}}>
 
-                    <label htmlFor="endDate">End Date</label>
-                    <input onChange={(e) => this.handleChange('endDate', e)} value={this.state.endDate} name="endDate" type="date" />
+                        <form onSubmit={this.fetchData}>
+                            <div className="cc5FormInner">
+                                <Typography variant="h4">Historic Data</Typography>
+                                {/* <h1>Historic Data</h1> */}
+                                <Grid item xs={10}>                                                                            
+                                        <TextField
+                                            id="startDate"
+                                            type="date"
+                                            label="start date"
+                                            onChange={(e) => this.handleChange("startDate", e)}
+                                            value={this.state.startDate}
+                                            style={{ paddingTop: '-5px' }}
+                                        />                                    
+                                </Grid>
+                                <br />
+                                <Grid item xs={10}>                                    
+                                    <TextField
+                                        id="endDate"
+                                        label="end date"
+                                        type="date"
+                                        onChange={(e) => this.handleChange("endDate", e)}
+                                        value={this.state.endDate}
+                                    />
+                                </Grid>
+                                <br />
+                                {/* <label htmlFor="startDate">Start Date</label>
+                                <input onChange={(e) => this.handleChange("startDate", e)} value={this.state.startDate} name="startDate" type="date" />
 
-                    <button type="submit">Fetch Data</button>
-                </form>
+                                <label htmlFor="endDate">End Date</label>
+                                <input onChange={(e) => this.handleChange('endDate', e)} value={this.state.endDate} name="endDate" type="date" /> */}
 
-                {this.charts()[this.state.activeStep]}
-                <MobileStepper
-                    steps={4}
-                    position="static"
-                    variant="text"
-                    activeStep={this.state.activeStep}
-                    nextButton={
-                        <Button size="small" onClick={this.handleNext}>
-                            NEXT
+                                <Button color="primary" variant="contained" type="submit">Fetch Data</Button>
+                            </div>
+                        </form>
+                    </Grid>
+                </Grid>
+
+                <Grid item xs={10}>
+                    {this.charts()[this.state.activeStep]}
+                    <MobileStepper
+                        steps={4}
+                        position="static"
+                        variant="text"
+                        activeStep={this.state.activeStep}
+                        nextButton={
+                            <Button  color="primary" variant="contained" size="small" onClick={this.handleNext}>
+                                <Typography>NEXT</Typography>
                         </Button>
-                    }
-                    backButton={
-                        <Button size="small" onClick={this.handleBack}>
-                            BACK
+                        }
+                        backButton={
+                            <Button color="primary" variant="contained" size="small" onClick={this.handleBack}>
+                                BACK
                         </Button>
-                    }
-                />
-
-            </div>
+                        }
+                    />
+                </Grid>                
+            </Grid>
         )
     }
 }

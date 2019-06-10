@@ -1,16 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import {Button, Typography} from '@material-ui/core'
+import { Input } from '@material-ui/icons';
 
-const LogOutButton = props => (
-  <button
+const LogOutButton = props => (        
+  <Button    
     // This button shows up in multiple locations and is styled differently
     // because it's styled differently depending on where it is used, the className
     // is passed to it from it's parents through React props
     className={props.className}
     onClick={() => props.dispatch({ type: 'LOGOUT' })}
+    style={{marginLeft: 'auto'}}
+    color="inherit"
   >
-    Log Out
-  </button>
+    {(props.nav) ? <Input color="primary"/> : ''}
+    <Typography variant="h6">
+      Log Out
+    </Typography>
+  </Button>
 );
 
 // This component doesn't need 'mapStateToProps'

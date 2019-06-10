@@ -8,18 +8,35 @@ body {
     margin: 50px;
 }
 
-form {
-    background-color: #dbd5d5;
+ form {
+    /* background-color: #dbd5d5;
     width: 30%;
     height: 250px;
     margin: 20px auto;
     padding: 25px;
-    border-radius: 2px;
+    border-radius: 2px;  */    
+    /* margin: 20px auto; */
+    width: 50%;
+    margin-top: 10%;
+    padding-bottom: 20px;
+    border-radius: 20px;    
+    border-style: solid;
+    border-color: #2196f3;
+    background-color: #e3f2fd;
 }
 
 input {
     margin: 5px;
     margin-bottom: 10px;
+}
+
+.cc5FormInner {
+    margin-left:20px;
+    padding-top:10px;
+}
+
+.cc5Header {
+    margin:5%;
 }
 
 .log-in, .log-out, .register {

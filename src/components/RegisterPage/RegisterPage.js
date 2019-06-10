@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 
+import {Grid, Button} from '@material-ui/core';
+
 class RegisterPage extends Component {
   state = {
     username: '',
     password: '',
-    email: '',
+    email: '',    
     coop: '',
 
   };
@@ -19,7 +21,7 @@ class RegisterPage extends Component {
         payload: {
           username: this.state.username,
           password: this.state.password,
-          email: this.state.email,
+          email: this.state.email,          
           coop: this.state.coop
         },
       });
@@ -45,70 +47,88 @@ class RegisterPage extends Component {
             {this.props.errors.registrationMessage}
           </h2>
         )}
-        <form onSubmit={this.registerUser}>
-          <h1>Register User</h1>
-          <div>
-            <label htmlFor="username">
-              Username:
+        <Grid container justify="center">
+          <Grid item xs={12}>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={10} style={{marginLeft:'auto'}}>
+              <form onSubmit={this.registerUser}>
+                <div className="cc5FormInner">
+                  <h1>Register User</h1>
+                  <div>
+                    <label htmlFor="username">
+                      Username:
               <input
-                type="text"
-                name="username"
-                value={this.state.username}
-                onChange={this.handleInputChangeFor('username')}
-              />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="password">
-              Password:
+                        type="text"
+                        name="username"
+                        value={this.state.username}
+                        onChange={this.handleInputChangeFor('username')}
+                      />
+                    </label>
+                  </div>
+                  <div>
+                    <label htmlFor="password">
+                      Password:
               <input
-                type="password"
-                name="password"
-                value={this.state.password}
-                onChange={this.handleInputChangeFor('password')}
-              />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="email address">
-              Email Address:
+                        type="password"
+                        name="password"
+                        value={this.state.password}
+                        onChange={this.handleInputChangeFor('password')}
+                      />
+                    </label>
+                  </div>
+                  <div>
+                    <label htmlFor="email address">
+                      Email Address:
               <input
-                type="email"
-                name="email"
-                value={this.state.email}
-                onChange={this.handleInputChangeFor('email')}
-              />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="coop">
-              coop id:
+                        type="email"
+                        name="email"
+                        value={this.state.email}
+                        onChange={this.handleInputChangeFor('email')}
+                      />
+                    </label>
+                  </div>
+                  <div>
+                    <label htmlFor="coop">
+                      coop id:
               <input
-                type="text"
-                name="coop"
-                value={this.state.coop}
-                onChange={this.handleInputChangeFor('coop')}
-              />
-            </label>
-          </div>
-          <div>
-            <input
-              className="register"
-              type="submit"
-              name="submit"
-              value="Register"
-            />
-          </div>
-        </form>
-        <center>
-          <button
-            type="button"
-            className="link-button"
-            onClick={() => {this.props.dispatch({type: 'SET_TO_LOGIN_MODE'})}}
-          >
-            Login
-          </button>
-        </center>
+                        type="text"
+                        name="coop"
+                        value={this.state.coop}
+                        onChange={this.handleInputChangeFor('coop')}
+                      />
+                    </label>
+                  </div>
+                  <div>
+                    <Button
+                      className="register"
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      name="submit"                      
+                    >
+                      Register
+                    </Button>
+                  </div>
+                </div>
+              </form>
+            </Grid>
+          </Grid>                  
+        <Grid item xs={12}>
+          <Grid item xs={2}></Grid>
+          <Grid item xs={10} style={{ marginLeft: 'auto' }}>
+            <Grid item xs={5} style={{marginLeft: '20%'}}>
+                <Button
+                  type="button"
+                  className="link-button"
+                  onClick={() => { this.props.dispatch({ type: 'SET_TO_LOGIN_MODE' }) }}
+                  color="primary"
+                >
+                  Login
+                </Button>
+            </Grid>
+          </Grid>
+        </Grid>          
+        </Grid>                
       </div>
     );
   }

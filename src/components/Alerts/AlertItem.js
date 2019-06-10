@@ -1,5 +1,16 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
+import {TableRow, TableCell, IconButton, Checkbox, Fab} from '@material-ui/core';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import DeleteTwoToneIcon from '@material-ui/icons/DeleteTwoTone';
+import DeleteIcon from '@material-ui/icons/Delete';
+import {withStyles} from '@material-ui/core/styles';
+
+const style = {
+    fab: {
+        // backgroundColor: 'secondary'
+    }
+}
 
 class AlertItem extends Component{
 
@@ -48,14 +59,27 @@ class AlertItem extends Component{
     render(){
         console.log('this.props.alerts', this.props.alert);
         return(
-            <tr>
-                <td>{this.props.alert.metric}</td>
-                <td>{this.conditionToString(this.props.alert.condition)} {this.props.alert.value}</td>
-                <td>{this.methodsToString(this.props.alert.email, this.props.alert.phone)}</td>
-                <td><input type="checkbox" checked={this.props.alert.active} onChange={() => this.toggleActive(this.props.alert.id)} /></td>
+            <TableRow>
+                <TableCell>{this.props.alert.metric}</TableCell>
+                <TableCell>{this.conditionToString(this.props.alert.condition)} {this.props.alert.value}</TableCell>
+                <TableCell>{this.methodsToString(this.props.alert.email, this.props.alert.phone)}</TableCell>
+                <TableCell>
+                    <Checkbox
+                        checked={this.props.alert.active} onChange={() => this.toggleActive(this.props.alert.id)}
+                        value="active"
+                        inputProps={{
+                            'aria-label': 'active checkbox'
+                        }}
+                        color="primary"
+                    />                    
+                </TableCell>
                 {/* <td>{this.props.alert.active}</td> */}
-                <td><button onClick={() => this.handleDelete(this.props.alert.id)}>X</button></td>
-            </tr>
+                <TableCell>                    
+                    <IconButton color="inherit" aria-label="Delete" onClick={() => this.handleDelete(this.props.alert.id)}>
+                        <DeleteIcon />
+                    </IconButton>                    
+                </TableCell>
+            </TableRow>
         )
     }
 }
@@ -64,4 +88,6 @@ const mapStateToProps = (reduxState) => {
     return {user: reduxState.user};
 }
 
-export default connect(mapStateToProps)(AlertItem);
+const connectedAlertItem = connect(mapStateToProps)(AlertItem);
+// export default connect(mapStateToProps)(AlertItem);
+export default withStyles(style)(connectedAlertItem);

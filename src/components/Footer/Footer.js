@@ -1,5 +1,6 @@
 import React from 'react';
 import './Footer.css'
+import {Typography} from '@material-ui/core';
 
 // This is one of our simplest components
 // It doesn't have local state, so it can be a function component.
@@ -8,7 +9,8 @@ import './Footer.css'
 
 const Footer = () => (
   <footer>
-    &copy; Prime Digital Academy
+    <Typography>&copy; Chickey-Checker-5000</Typography>
+    {/* &copy; Prime Digital Academy */}
   </footer>
 );
 
