@@ -42,8 +42,14 @@ In order to run this project you'll need to install:
 
 ## Screen Shots
 ![Dashboard](screenshot1.png)
+
+
 ![Nav](screenshot2.png)
+
+
 ![Alerts](screenshot3.png)
+
+
 ![Historic Data](screenshot4.png)
 
 ## Completed Features
