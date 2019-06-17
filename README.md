@@ -1,119 +1,60 @@
 # Chickey Checker 5000
 
-A web-app that interfaces with an IoT device that monitors conditions in my chicken coop.
+A web-app dashboard that interfaces with an IoT device that monitors conditions inside my chicken coop. In addition to displaying up to date information on the current conditions inside the chicken coop, I've also setup the ability to send text or email alerts when user-defined conditions are met (E.G. the temperature inside the coop has reached below 32 °F) and the ability to visualize historic data. The backend of the webapp pulls information from the particle cloud.
 
-<!-- # Prime Project
-This version uses React, Redux, Express, Passport, and PostgreSQL (a full list of dependencies can be found in `package.json`).
+## Built With
+This project uses React.js, Redux.js, Redux-Saga, and Material UI for the front-end and Node.js, Express.js and postgreSQL. I used the particle cloud to send out webhooks to my backend in order to retrieve the live information feed. I sent emails using Nodemailer and Gmail and I sent text messages using Twillio.
 
-We **STRONGLY** recommend following these instructions carefully. It's a lot, and will take some time to set up, but your life will be much easier this way in the long run.
-
-## Download (Don't Clone) This Repository
-
-* Don't Fork or Clone. Instead, click the `Clone or Download` button and select `Download Zip`.
-* Unzip the project and start with the code in that folder.
-* Create a new GitHub project and push this code to the new repository.
+## Getting Started
+To get this project running you'll have to:
+• Fork and clone this repo.
+• create a postgresql database using the queries in the 'Database.sql' file (table and inserts/alters only)
+star:
+-You'll want to run a postgreSQL server while using this project
+• In the directory you cloned this repo you'll need to run `npm install` to get the dependencies installed for this project.
+* once you have your database created and running and you've installed all dependencies, you'll have to run your express server. You should be able to do so by running `npm run server`.
+* Once your server is running, you can run the project in a browser by running `npm run client`
 
 ## Prerequisites
+In order to run this project you'll need to install:
 
-Before you get started, make sure you have the following software installed on your computer:
+* [node.js](https://nodejs.org/en/) 
+* [express.js](https://expressjs.com/)
+• [Passport.js](http://www.passportjs.org/)
+* [react](https://reactjs.org/) 
+* [redux](https://redux.js.org/)
+* [saga](https://redux-saga.js.org/)
+• [Material-UI](https://material-ui.com/)
+• [Nodemailer](https://nodemailer.com/about/)
+• [Twilio](https://www.twilio.com/)
+* [postgres](https://www.postgresql.org/) and 
+* [pg](https://node-postgres.com/)
+* All of these can also be installed using NPM (this is my preferred method)
+* [NPM](https://www.npmjs.com/)
 
-- [Node.js](https://nodejs.org/en/)
-- [PostrgeSQL](https://www.postgresql.org/)
-- [Nodemon](https://nodemon.io/)
+## Installing
+* Download this project.
+* install prerequisite libraries listed above.
+• run postgreSQL queries and start a postgreSQL database
+* run `npm install` from project directory in terminal
+* run `npm run server` to start your express server
+* run `npm run client` to open this project up in a browser
 
-## Create database and table
+## Screen Shots
+![Dashboard](screenshot1.png)
+![Nav](screenshot2.png)
+![Alerts](screenshot3.png)
+![Historic Data](screenshot4.png)
 
-Create a new database called `prime_app` and create a `user` table:
+## Completed Features
+• Developed all components in React that display on the DOM
+• User is able to navigate using a side drawer nav menu
+• User is able to set Alerts that are then stored in the database
+• All readings come in via a webhook from the particle cloud directly to the backend
+• When new readings come in they are checked against the alerts and alerts are sent out if necessary
+• User can view historic data from a date range that is then visualized as a graph of sensor readings over time
+• User can edit their profile information
+• Custom logo :)
 
-```SQL
-CREATE TABLE "user" (
-    "id" SERIAL PRIMARY KEY,
-    "username" VARCHAR (80) UNIQUE NOT NULL,
-    "password" VARCHAR (1000) NOT NULL
-);
-```
-
-If you would like to name your database something else, you will need to change `prime_app` to the name of your new database name in `server/modules/pool.js`
-
-## Development Setup Instructions
-
-* Run `npm install`
-* Create a `.env` file at the root of the project and paste this line into the file:
-    ```
-    SERVER_SESSION_SECRET=superDuperSecret
-    ```
-    While you're in your new `.env` file, take the time to replace `superDuperSecret` with some long random string like `25POUbVtx6RKVNWszd9ERB9Bb6` to keep your application secure. Here's a site that can help you: [https://passwordsgenerator.net/](https://passwordsgenerator.net/). If you don't do this step, create a secret with less than eight characters, or leave it as `superDuperSecret`, you will get a warning.
-* Start postgres if not running already by using `brew services start postgresql`
-* Run `npm run server`
-* Run `npm run client`
-* Navigate to `localhost:3000`
-
-## Debugging
-
-To debug, you will need to run the client-side separately from the server. Start the client by running the command `npm run client`. Start the debugging server by selecting the Debug button.
-
-![VSCode Toolbar](documentation/images/vscode-toolbar.png)
-
-Then make sure `Launch Program` is selected from the dropdown, then click the green play arrow.
-
-![VSCode Debug Bar](documentation/images/vscode-debug-bar.png)
-
-
-## Testing Routes with Postman
-
-To use Postman with this repo, you will need to set up requests in Postman to register a user and login a user at a minimum. 
-
-Keep in mind that once you using the login route, Postman will manage your session cookie for you just like a browser, ensuring it is sent with each subsequent request. If you delete the `localhost` cookie in Postman, it will effectively log you out.
-
-1. Start the server - `npm run server`
-2. [Import the sample routes JSON file](./PostmanPrimeSoloRoutes.json) by clicking `Import` in Passport. Select the file.
-3. Click `Collections` and `Send` the following three calls in order:
-    1. `POST /api/user/register` registers a new user, see body to change username/password
-    2. `POST /api/user/login` will login a user, see body to change username/password
-    3. `GET /api/user` will get user information, by default it's not very much
-
-After running the login route above, you can try any other route you've created that requires a logged in user!
-
-
-## Production Build
-
-Before pushing to Heroku, run `npm run build` in terminal. This will create a build folder that contains the code Heroku will be pointed at. You can test this build by typing `npm start`. Keep in mind that `npm start` will let you preview the production build but will **not** auto update.
-
-* Start postgres if not running already by using `brew services start postgresql`
-* Run `npm start`
-* Navigate to `localhost:5000`
-
-## Lay of the Land
-
-* `src/` contains the React application
-* `public/` contains static assets for the client-side
-* `build/` after you build the project, contains the transpiled code from `src/` and `public/` that will be viewed on the production site
-* `server/` contains the Express App
-
-This code is also heavily commented. We recommend reading through the comments, getting a lay of the land, and becoming comfortable with how the code works before you start making too many changes. If you're wondering where to start, consider reading through component file comments in the following order:
-
-* src/components
-  * App/App
-  * Footer/Footer
-  * Nav/Nav
-  * AboutPage/AboutPage
-  * InfoPage/InfoPage
-  * UserPage/UserPage
-  * LoginPage/LoginPage
-  * RegisterPage/RegisterPage
-  * LogOutButton/LogOutButton
-  * ProtectedRoute/ProtectedRoute
-
-## Deployment
-
-1. Create a new Heroku project
-1. Link the Heroku project to the project GitHub Repo
-1. Create an Heroku Postgres database
-1. Connect to the Heroku Postgres database from Postico
-1. Create the necessary tables
-1. Add an environment variable for `SERVER_SESSION_SECRET` with a nice random string for security
-1. In the deploy section, select manual deploy
-
-## Update Documentation
-
-Customize this ReadMe and the code comments in this project to read less like a starter repo and more like a project. Here is an example: https://gist.github.com/PurpleBooth/109311bb0361f32d87a2 -->
+## Author
+[Stefen Menzel](https://github.com/stefenmenzel)
